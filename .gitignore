@@ -1,0 +1,6 @@
+# Google Apps Script（公開不要・Drive フォルダIDを含む）
+gas/
+
+# OS / エディタ生成ファイル
+.DS_Store
+Thumbs.db
