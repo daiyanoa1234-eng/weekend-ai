@@ -12,11 +12,11 @@
   /*  ・theme（任意）を入れるとカードに副題が表示されます       */
   /* ===================================================== */
   var EPISODES = [
-    { url: 'https://stand.fm/episodes/6a405981f6da955ea231d2a6', no: 1, theme: '', date: '' },
-    { url: 'https://stand.fm/episodes/6a4059c8ac08572069cc0537', no: 2, theme: '', date: '' },
-    { url: 'https://stand.fm/episodes/6a405a0cf6da955ea231d2b4', no: 3, theme: '', date: '' },
-    { url: 'https://stand.fm/episodes/6a405a81f6da955ea231d2c6', no: 4, theme: '', date: '' },
-    { url: 'https://stand.fm/episodes/6a405ed967dded2eddb5eb93', no: 5, theme: '', date: '' }
+    { url: 'https://stand.fm/episodes/6a405981f6da955ea231d2a6', no: 1, theme: '', date: '5/30' },
+    { url: 'https://stand.fm/episodes/6a4059c8ac08572069cc0537', no: 2, theme: '', date: '6/6' },
+    { url: 'https://stand.fm/episodes/6a405a0cf6da955ea231d2b4', no: 3, theme: '', date: '6/13' },
+    { url: 'https://stand.fm/episodes/6a405a81f6da955ea231d2c6', no: 4, theme: '', date: '6/20' },
+    { url: 'https://stand.fm/episodes/6a405ed967dded2eddb5eb93', no: 5, theme: '', date: '6/27' }
   ];
   // 既定の表示順： 'newest'（新しい回が上＝降順）/ 'oldest'（第1回が上＝昇順）
   var ORDER = 'newest';
