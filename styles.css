@@ -143,7 +143,7 @@ strong{color:inherit}
 
 /* ===== Benefits ===== */
 .benefits{background:linear-gradient(180deg,#fff 0%,#F4FAFD 100%)}
-.benefit-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .benefit-card{
   background:#fff;border:1px solid var(--line);border-radius:var(--radius);
   padding:26px 20px;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s;
