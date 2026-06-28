@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podcastバックナンバー｜週末のAI整え習慣</title>
+<meta name="description" content="週末のAI整え習慣 過去回のPodcastバックナンバー。Google Driveに蓄積された音声をそのまま視聴できます。倍速再生・視聴管理に対応。">
+<meta property="og:title" content="Podcastバックナンバー｜週末のAI整え習慣">
+<meta property="og:description" content="過去回はPodcastで、いつでもキャッチアップ。">
+<meta property="og:image" content="https://daiyanoa1234-eng.github.io/weekend-ai/assets/og-image.jpg">
+<meta property="og:url" content="https://daiyanoa1234-eng.github.io/weekend-ai/podcast.html">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header class="site-header scrolled" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="brand" aria-label="週末のAI整え習慣 トップへ">
+      <span class="brand-sun" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="34" height="34">
+          <circle cx="20" cy="24" r="9" fill="url(#sun)"/>
+          <g stroke="url(#sun)" stroke-width="2.4" stroke-linecap="round">
+            <line x1="20" y1="6" x2="20" y2="11"/>
+            <line x1="7" y1="11" x2="10.5" y2="14.5"/>
+            <line x1="33" y1="11" x2="29.5" y2="14.5"/>
+          </g>
+          <line x1="4" y1="35" x2="36" y2="35" stroke="#1B6FA0" stroke-width="2.4" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F6B73C"/><stop offset="1" stop-color="#F2913E"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <span class="brand-text">週末の<strong>AI</strong>整え習慣</span>
+    </a>
+    <nav class="site-nav" id="siteNav">
+      <a href="index.html#concept">企画について</a>
+      <a href="index.html#benefits">参加特典</a>
+      <a href="podcast.html" class="active">Podcast</a>
+      <a href="index.html#join">開催情報</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+    <a href="https://therapis10.com/signup?invitationCode=unTbjuDp" target="_blank" rel="noopener" class="btn btn-cta header-cta">次回の朝活に参加する</a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ===== Page Hero ===== -->
+<section class="pod-hero">
+  <div class="container">
+    <p class="eyebrow">PODCAST BACKNUMBER</p>
+    <h1 class="pod-hero-title">過去回はPodcastで、<br>いつでも<span class="accent">キャッチアップ</span>。</h1>
+    <p class="pod-hero-lead">リアルタイムで参加できなかった週も、過去回の音声をstand.fmのプレイヤーでそのまま視聴できます。stand.fmアプリなら倍速再生にも対応。何本聴いたかも確認できるので、学びの積み上げが見える形で継続できます。</p>
+    <div class="pod-hero-actions">
+      <a href="https://therapis10.com/signup?invitationCode=unTbjuDp" target="_blank" rel="noopener" class="btn btn-cta">次回の朝活に参加する</a>
+    </div>
+  </div>
+</section>
+
+<main class="section pod-main">
+  <div class="container">
+
+    <!-- Status dashboard -->
+    <div class="pod-dash" id="podDash">
+      <div class="dash-card">
+        <span class="dash-label">現在の視聴本数</span>
+        <span class="dash-num"><strong id="watchedCount">0</strong> / <span id="totalCount">0</span>本</span>
+        <div class="dash-bar"><span id="dashBarFill"></span></div>
+      </div>
+      <div class="dash-card">
+        <span class="dash-label">今週の視聴</span>
+        <span class="dash-num"><strong id="weekCount">0</strong>本</span>
+      </div>
+      <div class="dash-card">
+        <span class="dash-label">未視聴</span>
+        <span class="dash-num"><strong id="unwatchedCount">0</strong>本</span>
+      </div>
+      <div class="dash-card dash-rec">
+        <span class="dash-label">次に聴くおすすめ回</span>
+        <span class="dash-rec-title" id="recTitle">—</span>
+      </div>
+    </div>
+
+    <!-- Sort toggle -->
+    <div class="pod-toolbar">
+      <span class="pod-toolbar-label">並び替え</span>
+      <div class="sort-group">
+        <button class="sort-btn" data-order="newest">新しい順（降順）</button>
+        <button class="sort-btn" data-order="oldest">古い順（昇順）</button>
+      </div>
+    </div>
+
+    <!-- Episode list -->
+    <div class="pod-list" id="podList"></div>
+
+    <p class="pod-note">※ 各回はstand.fm（URL限定公開）のプレイヤーで再生されます。視聴済みの状態はこのブラウザに保存されます。新しい回を追加するときは <code>podcast.js</code> の <code>EPISODES</code> にstand.fmのURLを1行足してください。</p>
+  </div>
+</main>
+
+<!-- ===== CTA banner ===== -->
+<section class="pod-cta-banner">
+  <div class="container">
+    <h2>週末の朝に。整える習慣を。</h2>
+    <p>過去回で雰囲気をつかんだら、次回の朝活に参加して一緒に整えましょう。</p>
+    <a href="https://therapis10.com/signup?invitationCode=unTbjuDp" target="_blank" rel="noopener" class="btn btn-cta btn-lg">次回の朝活に参加する</a>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <span class="brand-text light">週末の<strong>AI</strong>整え習慣</span>
+      <p>AI情報を整え、来週の仕事と週末の時間を整える朝活コミュニティ。</p>
+    </div>
+    <nav class="footer-nav">
+      <a href="index.html#concept">企画について</a>
+      <a href="index.html#benefits">参加特典</a>
+      <a href="podcast.html">Podcast</a>
+      <a href="index.html#join">開催情報</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="https://therapis10.com/signup?invitationCode=unTbjuDp" target="_blank" rel="noopener">参加する</a>
+    </nav>
+  </div>
+  <div class="footer-base">
+    <span>© 2026 週末のAI整え習慣</span>
+    <a href="#">プライバシーポリシー</a>
+  </div>
+</footer>
+
+<script src="podcast.js"></script>
+</body>
+</html>
