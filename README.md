@@ -1,6 +1,7 @@
 # 週末のAI整え習慣 — ホームページ
 
 土曜朝6時のAI朝活コミュニティ「週末のAI整え習慣」の公式サイト（静的サイト）。
+https://daiyanoa1234-eng.github.io/weekend-ai/index.html#concept
 
 ## ファイル構成
 - `index.html` … トップページ（企画紹介・参加導線）
