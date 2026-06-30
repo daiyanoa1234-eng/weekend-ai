@@ -255,6 +255,21 @@ strong{color:inherit}
 
 /* ===== Join ===== */
 .join{background:var(--white)}
+.join-flow{margin:0 auto 28px;max-width:1000px;border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.join-flow img{width:100%;display:block}
+.join-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:920px;margin:0 auto 32px}
+.join-steps-4{grid-template-columns:repeat(4,1fr);max-width:1000px}
+.join-step{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px 24px;
+  box-shadow:var(--shadow-sm);position:relative;
+}
+.join-step .step-no{
+  display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;
+  background:var(--cta-grad);color:#fff;font-family:"Montserrat",sans-serif;font-weight:700;font-size:1.1rem;
+  margin-bottom:14px;box-shadow:0 6px 16px rgba(19,115,160,.28);
+}
+.join-step h3{font-size:1.04rem;font-weight:700;color:var(--ink);line-height:1.45;margin-bottom:8px}
+.join-step p{font-size:.88rem;color:var(--ink-soft);line-height:1.75}
 .join-card{
   background:linear-gradient(180deg,#F4FAFD,#EAF5FB);
   border:1px solid var(--line);border-radius:24px;padding:40px;max-width:760px;margin:0 auto;
@@ -268,6 +283,37 @@ strong{color:inherit}
 .info-v{color:var(--ink-soft);font-size:.94rem}
 .join-desc{text-align:center;color:var(--ink-soft);margin-bottom:6px}
 .join .section-cta{margin-top:26px}
+
+/* ===== Recommended For ===== */
+.recommend{background:var(--sky)}
+.recommend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+.recommend-banner{margin:0 auto 28px;max-width:1000px;border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.recommend-banner img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.recommend-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:30px 24px;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s;
+}
+.recommend-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.recommend-card .rec-ico{
+  display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:14px;
+  background:var(--mist);font-size:1.7rem;margin-bottom:16px;
+}
+.recommend-card h3{font-size:1.08rem;font-weight:700;color:var(--ink);line-height:1.45;margin-bottom:10px}
+.recommend-card p{font-size:.9rem;color:var(--ink-soft);line-height:1.8}
+
+/* ===== House Rules ===== */
+.houserule{background:#fff}
+.rule-motto{
+  margin:36px auto 0;max-width:760px;text-align:center;color:#fff;
+  background:radial-gradient(600px 320px at 20% 120%,rgba(244,167,66,.22),rgba(244,167,66,0) 60%),var(--deep-grad);
+  border-radius:18px;padding:32px 26px;box-shadow:var(--shadow);
+}
+.rule-motto .motto-label{
+  display:inline-block;font-family:"Montserrat",sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.14em;
+  color:var(--cyan);border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:4px 16px;margin-bottom:14px;
+}
+.rule-motto .motto-text{font-size:clamp(1.3rem,2.8vw,1.8rem);font-weight:900;margin-bottom:8px}
+.rule-motto .motto-sub{font-size:.92rem;color:rgba(255,255,255,.85)}
 
 /* ===== Host ===== */
 .host{background:linear-gradient(180deg,#F4FAFD,#fff)}
@@ -392,6 +438,7 @@ strong{color:inherit}
 /* ===== Responsive ===== */
 @media (max-width:1000px){
   .benefit-grid{grid-template-columns:repeat(3,1fr)}
+  .join-steps-4{grid-template-columns:repeat(2,1fr)}
   .pod-dash{grid-template-columns:1fr 1fr}
   .timeline{grid-template-columns:repeat(4,1fr)}
 }
@@ -420,6 +467,8 @@ strong{color:inherit}
   .timeline{grid-template-columns:1fr;gap:10px}
   .tl-item{padding:16px 18px 16px 46px}
   .tl-item::before{top:50%;left:12px;transform:translateY(-50%)}
+  .join-steps{grid-template-columns:1fr}
+  .recommend-grid{grid-template-columns:1fr}
   .join-card{padding:28px 22px}
   .info-k{flex-basis:80px}
   .footer-grid{flex-direction:column}
