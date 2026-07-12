@@ -26,17 +26,6 @@
     });
   }
 
-  /* ---------- Placeholder link (contact) ---------- */
-  var contact = document.getElementById('contactLink');
-  if (contact) {
-    contact.addEventListener('click', function (e) {
-      if (contact.getAttribute('href') === '#' || !contact.getAttribute('href')) {
-        e.preventDefault();
-        alert('お問い合わせ先（フォームURL等）をここに設定してください。');
-      }
-    });
-  }
-
   /* ---------- Reveal on scroll ---------- */
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -56,3 +45,4 @@
     });
   }
 })();
+
