@@ -18,7 +18,7 @@
     { url: 'https://stand.fm/episodes/6a405a81f6da955ea231d2c6', no: 4, theme: '', date: '6/20' },
     { url: 'https://stand.fm/episodes/6a405ed967dded2eddb5eb93', no: 5, theme: '', date: '6/27' },
     { url: 'https://stand.fm/episodes/6a483bd107e378c56bc832b6', no: 6, theme: '', date: '7/4' },
-    { url: 'https://stand.fm/episodes/6a516dc980a4752b43a0c567', no: 7, theme: '', date: '7/11' } ,
+    { url: 'https://stand.fm/episodes/6a516dc980a4752b43a0c567', no: 7, theme: '', date: '7/11' },
     { url: 'https://stand.fm/episodes/6a5aa5063f95b14bbd46428f', no: 8, theme: '', date: '7/18' } 
   ];
   // 既定の表示順： 'newest'（新しい回が上＝降順）/ 'oldest'（第1回が上＝昇順）
