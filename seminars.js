@@ -21,7 +21,7 @@
       speakerName: '梶原 祐輔',
       speakerTitle: '理学療法士／株式会社PLAST チーフ・DX担当',
       price: '無料',
-      thumb: 'assets/seminars/2026-08-10_generative-ai-literacy.jpg',
+      thumb: 'assets/2026-08-10_generative-ai-literacy.jpg',
       summary: '生成AIを現場に取り入れるときに管理職が押さえておきたい、権限管理とデータ保存先の考え方を整理する回です。',
       url: 'https://therapis10.com/seminars/cmrzelrg500bkizfk0atnahxh',
       tags: ['アーカイブ配信あり', '限定コミュニティあり', '資料配布あり']
@@ -35,7 +35,7 @@
       speakerName: '小島 健',
       speakerTitle: '運動器認定理学療法士／十全記念病院',
       price: '無料',
-      thumb: 'assets/seminars/2026-08-17_grok-x-branding.jpg',
+      thumb: 'assets/2026-08-17_grok-x-branding.jpg',
       summary: 'Grokを活用してX（旧Twitter）運用を効率化し、自己ブランディングやキャリアの可能性を広げるための実践術を紹介します。',
       url: 'https://therapis10.com/seminars/cmrzeqc6n00cwizfkc2z9wwnd',
       tags: ['アーカイブ配信あり', '限定コミュニティあり', '資料配布あり']
@@ -172,5 +172,7 @@
     });
   }
 
+  render();
+})();
   render();
 })();
