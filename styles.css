@@ -444,12 +444,31 @@ strong{color:inherit}
 
 /* ===== Seminar list page ===== */
 .sem-hero{
-  padding:150px 0 52px;
+  padding:146px 0 56px;
   background:linear-gradient(180deg,var(--sky) 0%,var(--white) 100%);
 }
+.sem-hero-copy{max-width:56em}
 .sem-hero-title{font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:900;color:var(--ink);line-height:1.32;margin-bottom:16px}
 .sem-hero-title .accent{color:var(--teal)}
 .sem-hero-lead{max-width:48em;color:var(--ink-soft)}
+
+/* hero visual */
+.sem-hero-visual{
+  position:relative;margin:36px 0 0;line-height:0;
+  border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+}
+.sem-hero-visual img{width:100%;height:auto;display:block}
+.sem-hero-flow{
+  position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
+  display:inline-flex;align-items:center;gap:14px;white-space:nowrap;
+  background:rgba(255,255,255,.93);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.7);border-radius:999px;
+  padding:11px 24px;box-shadow:0 10px 26px rgba(12,45,68,.22);line-height:1.4;
+}
+.flow-step{font-size:.92rem;font-weight:700}
+.flow-q{color:var(--ink-soft)}
+.flow-a{color:var(--teal-deep)}
+.flow-arrow{color:var(--sun-deep);font-weight:700;font-size:1.05rem}
 .sem-why{background:var(--sky-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sem-why .recommend-grid{margin-top:30px}
 .sem-main{padding-top:64px}
@@ -566,6 +585,11 @@ body.sem-lock{overflow:hidden}
   .benefit-grid{grid-template-columns:1fr}
 }
 
+@media (max-width:860px){
+  .sem-hero{padding:120px 0 48px}
+  .sem-hero-flow{padding:9px 18px;gap:10px}
+  .flow-step{font-size:.84rem}
+}
 @media (max-width:680px){
   .sem-grid{grid-template-columns:1fr}
   .sem-modal-inner{grid-template-columns:1fr}
@@ -573,5 +597,11 @@ body.sem-lock{overflow:hidden}
   .sem-modal-content{padding:24px 22px}
   .sem-modal-cta{flex-direction:column;align-items:flex-start}
   .sem-modal-cta .btn{width:100%}
-}
+  /* 狭い画面では帯を画像の下に置き、見切れを防ぐ */
+  .sem-hero-visual{overflow:visible;box-shadow:none;border-radius:0}
+  .sem-hero-visual img{border-radius:14px;box-shadow:var(--shadow)}
+  .sem-hero-flow{
+    position:static;transform:none;display:flex;justify-content:center;flex-wrap:wrap;
+    white-space:normal;margin-top:14px;border-radius:14px;padding:12px 16px;
+  }
 }
