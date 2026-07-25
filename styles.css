@@ -442,33 +442,52 @@ strong{color:inherit}
 .pod-card.stand .pod-controls{margin-top:auto}
 .pod-note code{background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.86em;color:var(--teal-deep)}
 
-/* ===== Seminar list page ===== */
+/* ===== Seminar page ===== */
+/* ヒーロー：画像を背景に敷き、その上にメッセージを重ねる */
 .sem-hero{
-  padding:146px 0 56px;
-  background:linear-gradient(180deg,var(--sky) 0%,var(--white) 100%);
+  position:relative;isolation:isolate;overflow:hidden;
+  background:#0B2C41;
+  padding:184px 0 108px;
+  min-height:min(74vh,620px);
+  display:flex;align-items:center;
+  text-align:center;
 }
-.sem-hero-copy{max-width:56em}
-.sem-hero-title{font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:900;color:var(--ink);line-height:1.32;margin-bottom:16px}
-.sem-hero-title .accent{color:var(--teal)}
-.sem-hero-lead{max-width:48em;color:var(--ink-soft)}
-
-/* hero visual */
-.sem-hero-visual{
-  position:relative;margin:36px 0 0;line-height:0;
-  border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+/* 背景画像レイヤー */
+.sem-hero-media{position:absolute;inset:0;z-index:-3;line-height:0}
+.sem-hero-media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+/* 可読性を確保するスクリム（画像を暗く透過させる層） */
+.sem-hero::before{
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:
+    radial-gradient(120% 80% at 50% 45%, rgba(7,26,40,.52) 0%, rgba(7,26,40,.74) 60%, rgba(7,26,40,.88) 100%),
+    linear-gradient(180deg, rgba(7,26,40,.62) 0%, rgba(7,26,40,.40) 40%, rgba(7,26,40,.72) 100%);
 }
-.sem-hero-visual img{width:100%;height:auto;display:block}
+/* 下端を次セクションの背景色になじませる */
+.sem-hero::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:140px;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg, rgba(244,250,253,0) 0%, var(--sky-2) 100%);
+}
+.sem-hero-inner{position:relative;z-index:1}
+.sem-hero-title{
+  font-size:clamp(1.85rem,3.6vw,2.7rem);font-weight:900;color:#fff;line-height:1.32;
+  margin-bottom:18px;text-shadow:0 2px 18px rgba(4,18,28,.5);
+}
+.sem-hero-title .accent-light{color:var(--cyan)}
+.sem-hero-lead{
+  max-width:44em;margin:0 auto;color:rgba(255,255,255,.92);
+  text-shadow:0 1px 12px rgba(4,18,28,.5);
+}
+/* 「？」→「整える」の流れを示す帯 */
 .sem-hero-flow{
-  position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
-  display:inline-flex;align-items:center;gap:14px;white-space:nowrap;
-  background:rgba(255,255,255,.93);backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,.7);border-radius:999px;
-  padding:11px 24px;box-shadow:0 10px 26px rgba(12,45,68,.22);line-height:1.4;
+  display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;
+  margin-top:26px;padding:11px 24px;border-radius:999px;line-height:1.4;
+  background:rgba(255,255,255,.14);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.34);
 }
 .flow-step{font-size:.92rem;font-weight:700}
-.flow-q{color:var(--ink-soft)}
-.flow-a{color:var(--teal-deep)}
-.flow-arrow{color:var(--sun-deep);font-weight:700;font-size:1.05rem}
+.flow-q{color:rgba(255,255,255,.86)}
+.flow-a{color:#fff}
+.flow-arrow{color:var(--sun);font-weight:700;font-size:1.05rem}
 .sem-why{background:var(--sky-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sem-why .recommend-grid{margin-top:30px}
 .sem-main{padding-top:64px}
@@ -585,10 +604,18 @@ body.sem-lock{overflow:hidden}
   .benefit-grid{grid-template-columns:1fr}
 }
 
+/* ===== Responsive: seminar page ===== */
 @media (max-width:860px){
-  .sem-hero{padding:120px 0 48px}
-  .sem-hero-flow{padding:9px 18px;gap:10px}
+  .sem-hero{padding:132px 0 76px;min-height:min(66vh,520px)}
+  .sem-hero-flow{padding:10px 18px;gap:10px;margin-top:22px}
   .flow-step{font-size:.84rem}
+  /* 画面が縦長になるほど被写体が切れるため、寄りを調整しスクリムを強める */
+  .sem-hero-media img{object-position:62% center}
+  .sem-hero::before{
+    background:
+      radial-gradient(140% 90% at 50% 45%, rgba(7,26,40,.58) 0%, rgba(7,26,40,.78) 60%, rgba(7,26,40,.90) 100%),
+      linear-gradient(180deg, rgba(7,26,40,.66) 0%, rgba(7,26,40,.50) 40%, rgba(7,26,40,.78) 100%);
+  }
 }
 @media (max-width:680px){
   .sem-grid{grid-template-columns:1fr}
@@ -597,11 +624,10 @@ body.sem-lock{overflow:hidden}
   .sem-modal-content{padding:24px 22px}
   .sem-modal-cta{flex-direction:column;align-items:flex-start}
   .sem-modal-cta .btn{width:100%}
-  /* 狭い画面では帯を画像の下に置き、見切れを防ぐ */
-  .sem-hero-visual{overflow:visible;box-shadow:none;border-radius:0}
-  .sem-hero-visual img{border-radius:14px;box-shadow:var(--shadow)}
+  .sem-hero{padding:118px 0 64px;min-height:auto}
+  .sem-hero-lead{font-size:.92rem}
   .sem-hero-flow{
-    position:static;transform:none;display:flex;justify-content:center;flex-wrap:wrap;
-    white-space:normal;margin-top:14px;border-radius:14px;padding:12px 16px;
+    width:100%;flex-direction:column;gap:4px;border-radius:16px;padding:14px 16px;
   }
+  .flow-arrow{transform:rotate(90deg)}
 }
