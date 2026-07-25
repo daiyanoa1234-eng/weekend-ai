@@ -31,6 +31,7 @@ body{
   overflow-x:hidden;
 }
 img{max-width:100%;display:block;height:auto}
+button{font-family:inherit;color:inherit;background:none}
 a{color:inherit;text-decoration:none}
 strong{color:inherit}
 
@@ -503,7 +504,7 @@ strong{color:inherit}
 }
 .sem-card:hover,.sem-card:focus-visible{transform:translateY(-5px);box-shadow:var(--shadow);outline:none}
 .sem-card.is-past{opacity:.72}
-.sem-card-thumb{position:relative;aspect-ratio:16/9;background:var(--sky);overflow:hidden}
+.sem-card-thumb{position:relative;display:block;width:100%;aspect-ratio:16/9;background:var(--sky);overflow:hidden;border:0;padding:0;cursor:pointer;}
 .sem-card-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .sem-badge{
   position:absolute;top:10px;right:10px;font-size:.72rem;font-weight:700;
@@ -515,7 +516,9 @@ strong{color:inherit}
 .sem-card-date{font-size:.78rem;color:var(--teal-deep);font-weight:700}
 .sem-card-title{font-size:1.04rem;font-weight:700;color:var(--ink);line-height:1.5}
 .sem-card-speaker{font-size:.82rem;color:var(--ink-soft)}
-.sem-card-more{margin-top:auto;padding-top:10px;font-size:.82rem;font-weight:700;color:var(--teal-deep)}
+.sem-card-subtitle{font-size:.84rem;color:var(--teal-deep);font-weight:700}
+.sem-card-actions{display:flex;gap:10px;margin-top:auto;padding-top:16px}
+.sem-card-actions .btn{flex:1 1 0;min-width:0;font-size:.88rem;padding:13px 14px}
 .sem-empty{text-align:center;color:var(--ink-soft);padding:40px 0}
 .sem-note{font-size:.82rem;color:var(--ink-soft);margin-top:26px;text-align:center}
 .sem-note code{background:var(--sky);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.86em;color:var(--teal-deep)}
@@ -528,7 +531,7 @@ strong{color:inherit}
 .sem-modal.open{opacity:1;pointer-events:auto}
 .sem-modal-backdrop{position:absolute;inset:0;background:rgba(16,42,60,.62);backdrop-filter:blur(2px)}
 .sem-modal-box{
-  position:relative;background:#fff;border-radius:20px;max-width:880px;width:100%;
+  position:relative;background:#fff;border-radius:20px;max-width:720px;width:100%;
   max-height:88vh;overflow-y:auto;box-shadow:0 30px 70px rgba(10,40,60,.35);
   transform:translateY(14px) scale(.98);transition:transform .22s ease;
 }
@@ -539,9 +542,10 @@ strong{color:inherit}
   cursor:pointer;box-shadow:var(--shadow-sm);
 }
 .sem-modal-close:hover{background:#fff}
-.sem-modal-inner{display:grid;grid-template-columns:1fr 1fr}
-.sem-modal-thumb{position:relative;background:var(--sky)}
-.sem-modal-thumb img{width:100%;height:100%;object-fit:cover;display:block;min-height:220px}
+/* サムネイルを上、詳細を下に縦積み（16:9をそのまま表示して見切れを防ぐ） */
+.sem-modal-inner{display:flex;flex-direction:column}
+.sem-modal-thumb{position:relative;width:100%;aspect-ratio:16/9;background:var(--sky);overflow:hidden}
+.sem-modal-thumb img{width:100%;height:100%;object-fit:contain;display:block}
 .sem-modal-content{padding:30px 32px;display:flex;flex-direction:column;gap:12px}
 .sem-modal-date{font-size:.82rem;font-weight:700;color:var(--teal-deep)}
 .sem-modal-title{font-size:1.32rem;font-weight:900;color:var(--ink);line-height:1.45}
@@ -552,8 +556,9 @@ strong{color:inherit}
 .sem-speaker-title{font-size:.82rem;color:var(--ink-soft)}
 .sem-modal-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
 .sem-modal-tags li{font-size:.74rem;font-weight:700;color:var(--teal-deep);background:var(--mist);padding:4px 12px;border-radius:999px}
-.sem-modal-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:6px}
-.sem-modal-price{font-size:.82rem;color:var(--ink-soft)}
+.sem-modal-cta{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.sem-modal-cta .btn{width:100%}
+.sem-modal-price{font-size:.8rem;color:var(--ink-soft);text-align:center}
 body.sem-lock{overflow:hidden}
 
 /* ===== Responsive ===== */
@@ -619,11 +624,9 @@ body.sem-lock{overflow:hidden}
 }
 @media (max-width:680px){
   .sem-grid{grid-template-columns:1fr}
-  .sem-modal-inner{grid-template-columns:1fr}
-  .sem-modal-thumb img{min-height:180px}
-  .sem-modal-content{padding:24px 22px}
-  .sem-modal-cta{flex-direction:column;align-items:flex-start}
-  .sem-modal-cta .btn{width:100%}
+  .sem-modal-content{padding:22px 20px}
+  .sem-card-actions{flex-direction:column}
+  .sem-card-actions .btn{width:100%}
   .sem-hero{padding:118px 0 64px;min-height:auto}
   .sem-hero-lead{font-size:.92rem}
   .sem-hero-flow{
