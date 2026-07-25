@@ -102,7 +102,7 @@
           : '') +
         '<div class="sem-modal-cta">' +
           '<a href="' + escapeHtml(sem.url) + '" target="_blank" rel="noopener" class="btn btn-cta btn-lg">' +
-            (past ? 'この回の詳細を見る' : 'この回に申し込む') +
+            (past ? 'アーカイブを見る' : '無料で申し込む') +
           '</a>' +
           '<span class="sem-modal-price">参加費：' + escapeHtml(sem.price) + '</span>' +
         '</div>' +
@@ -147,26 +147,27 @@
       var past = isPast(sem.date);
       var card = document.createElement('article');
       card.className = 'sem-card' + (past ? ' is-past' : '');
-      card.tabIndex = 0;
-      card.setAttribute('role', 'button');
-      card.setAttribute('aria-label', sem.title + 'の詳細を見る');
 
       card.innerHTML =
-        '<figure class="sem-card-thumb">' +
+        '<button type="button" class="sem-card-thumb" aria-label="' + escapeHtml(sem.title) + 'の詳細を見る">' +
           '<img src="' + escapeHtml(sem.thumb) + '" alt="' + escapeHtml(sem.title) + '" loading="lazy">' +
           (past ? '<span class="sem-badge sem-badge-past">開催終了</span>' : '<span class="sem-badge sem-badge-live">開催予定</span>') +
-        '</figure>' +
+        '</button>' +
         '<div class="sem-card-body">' +
           '<p class="sem-card-date">' + escapeHtml(sem.dateLabel) + '　' + escapeHtml(sem.time) + '</p>' +
           '<h3 class="sem-card-title">' + escapeHtml(sem.title) + '</h3>' +
+          (sem.subtitle ? '<p class="sem-card-subtitle">' + escapeHtml(sem.subtitle) + '</p>' : '') +
           '<p class="sem-card-speaker">' + escapeHtml(sem.speakerName) + '　' + escapeHtml(sem.speakerTitle) + '</p>' +
-          '<span class="sem-card-more">詳しく見る ＋</span>' +
+          '<div class="sem-card-actions">' +
+            '<button type="button" class="btn btn-ghost sem-detail">詳細を見る</button>' +
+            '<a href="' + escapeHtml(sem.url) + '" target="_blank" rel="noopener" class="btn btn-cta sem-apply">' +
+              (past ? 'アーカイブを見る' : '無料で申し込む') +
+            '</a>' +
+          '</div>' +
         '</div>';
 
-      card.addEventListener('click', function () { openModal(sem); });
-      card.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(sem); }
-      });
+      card.querySelector('.sem-detail').addEventListener('click', function () { openModal(sem); });
+      card.querySelector('.sem-card-thumb').addEventListener('click', function () { openModal(sem); });
 
       grid.appendChild(card);
     });
