@@ -69,84 +69,84 @@
     <p class="eyebrow">CONTENTS</p>
     <h1 class="page-hero-title">聞いて終わりに、しない。<br><span class="accent">あとから学び直せる</span>ライブラリ。</h1>
     <p class="page-hero-lead">Podcastバックナンバーと、朝活・セミナーで扱った学習資料を1つにまとめています。その場では消化しきれなかった内容も、自分のペースで聴き直し・読み返せます。</p>
-    <ul class="page-jump">
-      <li><a href="#podcast">Podcast</a></li>
-      <li><a href="#library">学習コンテンツ</a></li>
-    </ul>
   </div>
 </section>
 
-<!-- ===== Podcast ===== -->
-<section class="section" id="podcast">
+<!-- ===== タブ切替：Podcast / 学習コンテンツ ===== -->
+<section class="section content-tabs">
   <div class="container">
-    <p class="eyebrow">PODCAST</p>
-    <h2 class="section-title">Podcastバックナンバー</h2>
-    <p class="section-lead">リアルタイムで参加できなかった週も、過去回の音声をstand.fmのプレイヤーでそのまま聴けます。stand.fmアプリなら倍速再生にも対応しています。</p>
+    <div class="tab-group" role="tablist" aria-label="コンテンツの種類">
+      <button type="button" class="tab-btn active" id="tab-podcast" data-target="podcast" role="tab" aria-selected="true" aria-controls="podcast">🎧 Podcast</button>
+      <button type="button" class="tab-btn" id="tab-library" data-target="library" role="tab" aria-selected="false" aria-controls="library">📚 学習コンテンツ</button>
+    </div>
 
-    <div class="pod-toolbar">
-      <span class="pod-toolbar-label">並び替え</span>
-      <div class="sort-group">
-        <button class="sort-btn" data-order="newest">新しい順（降順）</button>
-        <button class="sort-btn" data-order="oldest">古い順（昇順）</button>
+    <!-- ----- Podcast パネル ----- -->
+    <div class="tab-panel" id="podcast" role="tabpanel" aria-labelledby="tab-podcast">
+      <p class="eyebrow">PODCAST</p>
+      <h2 class="section-title">Podcastバックナンバー</h2>
+      <p class="section-lead">リアルタイムで参加できなかった週も、過去回の音声をstand.fmのプレイヤーでそのまま聴けます。stand.fmアプリなら倍速再生にも対応しています。</p>
+
+      <div class="pod-toolbar">
+        <span class="pod-toolbar-label">並び替え</span>
+        <div class="sort-group">
+          <button class="sort-btn" data-order="newest">新しい順（降順）</button>
+          <button class="sort-btn" data-order="oldest">古い順（昇順）</button>
+        </div>
+      </div>
+
+      <div class="pod-list" id="podList"></div>
+
+      <p class="pod-note">※ 各回の音声はstand.fmで配信しています。倍速再生はstand.fmのプレイヤー・アプリからご利用いただけます。「視聴済み」の状態はこのブラウザに保存されます。</p>
+    </div>
+
+    <!-- ----- 学習コンテンツ パネル ----- -->
+    <div class="tab-panel" id="library" role="tabpanel" aria-labelledby="tab-library" hidden>
+      <div class="content-toolbar">
+        <div>
+          <p class="eyebrow">LIBRARY</p>
+          <h2 class="section-title">学習コンテンツ<span class="content-count" id="contentCount"></span></h2>
+        </div>
+      </div>
+      <p class="section-lead">朝活やセミナーで扱った資料を、テーマごとにまとめています。資料は順次追加していきます。</p>
+
+      <div class="content-filter" id="contentFilter" hidden></div>
+
+      <div class="content-grid" id="contentGrid"></div>
+
+      <div class="content-empty" id="contentEmpty" hidden>
+        <p class="content-empty-title">資料を準備しています。</p>
+        <p class="content-empty-body">朝活やセミナーで扱った資料から順次公開していきます。<br>公開までは、Podcastで過去回の内容を聴いていただけます。</p>
+        <div class="section-cta">
+          <button type="button" class="btn btn-ghost" data-tab-switch="podcast">▶ Podcastを聴く</button>
+        </div>
+      </div>
+
+      <div class="library-usage">
+        <p class="eyebrow">HOW TO USE</p>
+        <h3 class="usage-title">資料の<span class="accent">使い方</span>。</h3>
+        <p class="section-lead">資料はGoogleドライブに置いています。リンクを開くとその場で閲覧できます。</p>
+
+        <div class="benefit-grid">
+          <article class="benefit-card">
+            <div class="benefit-ico">🔎</div>
+            <h3>出典から確かめる</h3>
+            <p>資料には紹介した情報の出典や参考リンクを載せています。気になった話は一次情報まで戻って確認できます。</p>
+          </article>
+          <article class="benefit-card">
+            <div class="benefit-ico">🗣️</div>
+            <h3>職場での検討に使う</h3>
+            <p>「うちの現場ならどうか」を考える材料として使えます。判断のもとになる情報がそろっている形にまとめています。</p>
+          </article>
+          <article class="benefit-card">
+            <div class="benefit-ico">🔁</div>
+            <h3>あとから読み返す</h3>
+            <p>その場で理解しきれなくても大丈夫です。実際に必要になったタイミングで戻ってこられるようにしています。</p>
+          </article>
+        </div>
+
+        <p class="note-line">※ 資料の再配布や外部への公開はご遠慮ください。職場での学習・検討にお使いいただく分には問題ありません。</p>
       </div>
     </div>
-
-    <div class="pod-list" id="podList"></div>
-
-    <p class="pod-note">※ 各回の音声はstand.fmで配信しています。倍速再生はstand.fmのプレイヤー・アプリからご利用いただけます。「視聴済み」の状態はこのブラウザに保存されます。</p>
-  </div>
-</section>
-
-<!-- ===== ライブラリ ===== -->
-<section class="section alt-bg" id="library">
-  <div class="container">
-    <div class="content-toolbar">
-      <div>
-        <p class="eyebrow">LIBRARY</p>
-        <h2 class="section-title">学習コンテンツ<span class="content-count" id="contentCount"></span></h2>
-      </div>
-    </div>
-
-    <div class="content-filter" id="contentFilter" hidden></div>
-
-    <div class="content-grid" id="contentGrid"></div>
-
-    <div class="content-empty" id="contentEmpty" hidden>
-      <p class="content-empty-title">資料を準備しています。</p>
-      <p class="content-empty-body">朝活やセミナーで扱った資料から順次公開していきます。<br>公開までは、上のPodcastで過去回の内容を聴いていただけます。</p>
-      <div class="section-cta">
-        <a href="#podcast" class="btn btn-ghost">▶ Podcastを聴く</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 使い方 ===== -->
-<section class="section">
-  <div class="container">
-    <p class="eyebrow">HOW TO USE</p>
-    <h2 class="section-title">資料の<span class="accent">使い方</span>。</h2>
-    <p class="section-lead">資料はGoogleドライブに置いています。リンクを開くとその場で閲覧できます。</p>
-
-    <div class="benefit-grid">
-      <article class="benefit-card">
-        <div class="benefit-ico">🔎</div>
-        <h3>出典から確かめる</h3>
-        <p>資料には紹介した情報の出典や参考リンクを載せています。気になった話は一次情報まで戻って確認できます。</p>
-      </article>
-      <article class="benefit-card">
-        <div class="benefit-ico">🗣️</div>
-        <h3>職場での検討に使う</h3>
-        <p>「うちの現場ならどうか」を考える材料として使えます。判断のもとになる情報がそろっている形にまとめています。</p>
-      </article>
-      <article class="benefit-card">
-        <div class="benefit-ico">🔁</div>
-        <h3>あとから読み返す</h3>
-        <p>その場で理解しきれなくても大丈夫です。実際に必要になったタイミングで戻ってこられるようにしています。</p>
-      </article>
-    </div>
-
-    <p class="note-line">※ 資料の再配布や外部への公開はご遠慮ください。職場での学習・検討にお使いいただく分には問題ありません。</p>
   </div>
 </section>
 
@@ -192,6 +192,7 @@
   </div>
 </footer>
 
+<script src="tabs.js"></script>
 <script src="contents.js"></script>
 </body>
 </html>
