@@ -146,6 +146,15 @@
      学習コンテンツ
      ・編集するのは CONTENTS だけです
 
+     ▼ タグについて（フィルターに使用・設定不要）
+       tags: ['AIリテラシー'] のように、各エントリに好きなタグを書くだけです。
+       別の場所に一覧を登録する必要はありません。実際に使われているタグから
+       フィルターのボタンが自動で作られます。1件に複数タグも付けられます
+       （例: tags: ['AIリテラシー', '情報セキュリティ']）。
+       タグはカードには表示せず、絞り込み専用です（動画カードは特に
+       サムネイル・タイトル・概要のみのシンプル表示にしています）。
+       ※ PDF・スライドなど非動画カードのみ、タグを小さなラベルとしてカードにも表示します。
+
      ▼ 動画コンテンツ（YouTubeで運用）
        チャンネルダッシュボード： https://studio.youtube.com/channel/UCBaZSkwcG8jsj8_gEaHrQ4w
 
@@ -163,7 +172,6 @@
        youtubeId は付けず、url に共有リンク（「リンクを知っている全員が閲覧可」）を入れると、
        これまで通りテキストカード＋「資料を開く」リンクで表示されます。
      ===================================================== */
-  var CATEGORIES = ['AI基礎', 'ツール活用', '現場での運用', '発信・キャリア', '振り返り資料'];
 
   // YouTubeの動画IDから、サムネイル画像・埋め込み再生用URLを組み立てるヘルパー
   function ytThumbUrl(id) {
@@ -178,7 +186,7 @@
     // {
     //   title: '生成AIリテラシー入門 振り返り資料',
     //   desc: '権限管理とデータ保存先の考え方を、出典リンク付きで整理した資料です。',
-    //   category: '現場での運用',
+    //   tags: ['現場での運用'],                                // 好きなタグを書くだけでOK（複数可）
     //   date: '2026-08-10',
     //   type: 'スライド',                                     // スライド / PDF / シート など
     //   url: 'https://drive.google.com/file/d/xxxxxxxx/view',  // 「HPコンテンツ」フォルダ内のファイルの共有リンク
@@ -188,18 +196,18 @@
     // {
     //   title: '動画のタイトル',
     //   desc: '概要（2文程度）。',
-    //   category: 'AI基礎',
+    //   tags: ['AIリテラシー'],
     //   date: '2026-08-10',
     //   type: '動画',
     //   youtubeId: 'YouTube動画のID（例: 8ubAUePSwY8）',
     //   source: '出典・回のメモなど（任意）'
     // },
 
-    // ▼ 追加済みの動画（date/category は仮の値です。実際の回・テーマに合わせて調整してください）
+    // ▼ 追加済みの動画（date は仮の値です。実際の回に合わせて調整してください）
     {
       title: 'AI時代の"見えてしまう情報"',
       desc: 'Claudeなどの共有設定を誤ると、社内資料やお客様情報が検索エンジンから見つかる状態になってしまうことがあります。投稿前のチェックポイントや権限範囲の見直し方を紹介します。',
-      category: 'AI基礎',
+      tags: ['AIリテラシー'],
       date: '2026-07-25',
       type: '動画',
       youtubeId: '8ubAUePSwY8',
@@ -216,26 +224,35 @@
   var empty = document.getElementById('contentEmpty');
   var filterWrap = document.getElementById('contentFilter');
   var countEl = document.getElementById('contentCount');
-  var currentCat = 'all';
+  var currentTag = 'all';
+
+  // 実際に CONTENTS で使われているタグだけを集めて、重複なく登場順に並べる
+  function collectTags() {
+    var seen = {};
+    var list = [];
+    CONTENTS.forEach(function (c) {
+      (c.tags || []).forEach(function (t) {
+        if (!seen[t]) { seen[t] = true; list.push(t); }
+      });
+    });
+    return list;
+  }
 
   function buildFilter() {
     if (!filterWrap) return;
     if (!CONTENTS.length) { filterWrap.hidden = true; return; }
 
-    var used = CATEGORIES.filter(function (cat) {
-      return CONTENTS.some(function (c) { return c.category === cat; });
-    });
-
+    var tags = collectTags();
     var html = '<button type="button" class="filter-btn active" data-cat="all">すべて</button>';
-    used.forEach(function (cat) {
-      html += '<button type="button" class="filter-btn" data-cat="' + esc(cat) + '">' + esc(cat) + '</button>';
+    tags.forEach(function (tag) {
+      html += '<button type="button" class="filter-btn" data-cat="' + esc(tag) + '">' + esc(tag) + '</button>';
     });
     filterWrap.innerHTML = html;
 
     filterWrap.addEventListener('click', function (e) {
       var btn = e.target.closest ? e.target.closest('.filter-btn') : null;
       if (!btn) return;
-      currentCat = btn.dataset.cat;
+      currentTag = btn.dataset.cat;
       filterWrap.querySelectorAll('.filter-btn').forEach(function (b) {
         b.classList.toggle('active', b === btn);
       });
@@ -290,8 +307,8 @@
     var list = CONTENTS.slice().sort(function (a, b) {
       return new Date(b.date) - new Date(a.date);
     });
-    if (currentCat !== 'all') {
-      list = list.filter(function (c) { return c.category === currentCat; });
+    if (currentTag !== 'all') {
+      list = list.filter(function (c) { return (c.tags || []).indexOf(currentTag) !== -1; });
     }
 
     if (countEl) {
@@ -324,9 +341,12 @@
           '</div>';
         card.querySelector('.content-card-thumb').addEventListener('click', function () { openVideoModal(c); });
       } else {
+        var tagChips = (c.tags || []).map(function (t) {
+          return '<span class="content-cat">' + esc(t) + '</span>';
+        }).join('');
         card.innerHTML =
           '<div class="content-head">' +
-            '<span class="content-cat">' + esc(c.category) + '</span>' +
+            tagChips +
             (c.type ? '<span class="content-type">' + esc(c.type) + '</span>' : '') +
           '</div>' +
           '<h3 class="content-title">' + esc(c.title) + '</h3>' +
