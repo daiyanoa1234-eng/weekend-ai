@@ -675,6 +675,49 @@ body.sem-lock{overflow:hidden}
 .content-empty-title{font-size:1.06rem;font-weight:700;color:var(--ink);margin-bottom:8px}
 .content-empty-body{font-size:.88rem;color:var(--ink-soft);line-height:1.9}
 
+/* ---- 学習コンテンツ：動画カード（サムネイル付き） ---- */
+.content-card-video{padding:0;overflow:hidden}
+.content-card-thumb{
+  position:relative;display:block;width:100%;aspect-ratio:16/9;
+  background:var(--sky);overflow:hidden;border:0;padding:0;cursor:pointer;
+}
+.content-card-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.content-play-badge{
+  position:absolute;bottom:10px;right:10px;font-size:.72rem;font-weight:700;
+  padding:5px 12px;border-radius:999px;color:#fff;background:rgba(16,42,60,.72);
+}
+.content-card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px}
+.content-card-body .content-meta{margin-top:2px}
+
+/* ---- 学習コンテンツ：動画ポップアップ ---- */
+.cv-modal{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:24px;opacity:0;pointer-events:none;transition:opacity .2s ease;
+}
+.cv-modal.open{opacity:1;pointer-events:auto}
+.cv-modal-backdrop{position:absolute;inset:0;background:rgba(16,42,60,.62);backdrop-filter:blur(2px)}
+.cv-modal-box{
+  position:relative;background:#fff;border-radius:20px;max-width:720px;width:100%;
+  max-height:88vh;overflow-y:auto;box-shadow:0 30px 70px rgba(10,40,60,.35);
+  transform:translateY(14px) scale(.98);transition:transform .22s ease;
+}
+.cv-modal.open .cv-modal-box{transform:translateY(0) scale(1)}
+.cv-modal-close{
+  position:absolute;top:14px;right:14px;z-index:2;width:36px;height:36px;border-radius:50%;
+  border:none;background:rgba(255,255,255,.92);color:var(--ink);font-size:1.3rem;line-height:1;
+  cursor:pointer;box-shadow:var(--shadow-sm);
+}
+.cv-modal-close:hover{background:#fff}
+.cv-modal-inner{display:flex;flex-direction:column}
+.cv-video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+.cv-video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.cv-modal-content{padding:26px 30px 30px;display:flex;flex-direction:column;gap:10px}
+.cv-modal-meta{font-size:.78rem;font-weight:700;color:var(--teal-deep)}
+.cv-modal-title{font-size:1.2rem;font-weight:900;color:var(--ink);line-height:1.5}
+.cv-modal-desc{font-size:.9rem;color:var(--ink-soft);line-height:1.8}
+.cv-modal-source{font-size:.8rem;color:var(--ink-soft)}
+body.cv-lock{overflow:hidden}
+
 /* ===== Responsive ===== */
 
 @media (max-width:1000px){
