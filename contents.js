@@ -143,40 +143,34 @@
   }
 
   /* =====================================================
-     学習コンテンツ（Googleドライブの資料）
+     学習コンテンツ
      ・編集するのは CONTENTS だけです
 
-     ▼ 資料の格納場所（Googleドライブ）
-       ルート： 「HPコンテンツ」
-         https://drive.google.com/drive/folders/14SgZ8A5yAS4RpGqVpFFAMG0xtY2BLw37
-       動画＋サムネイル： 「HPコンテンツ」内の「ホームページコンテンツ」フォルダに格納
-         https://drive.google.com/drive/folders/1fBymV8ByPFv8JMMmXpEKlOkLO9QKEiUI
-       （PDF・スライドなど動画以外の資料は「HPコンテンツ」直下でも可）
+     ▼ 動画コンテンツ（YouTubeで運用）
+       チャンネルダッシュボード： https://studio.youtube.com/channel/UCBaZSkwcG8jsj8_gEaHrQ4w
 
-     ▼ 動画コンテンツの追加方法（サムネイル付き・セミナーページと同じカード表示）
-       1. 「ホームページコンテンツ」フォルダに 動画ファイル と サムネイル画像（jpg/png）
-          の2つをアップロードする。
-       2. それぞれのファイルを右クリック→共有→「リンクを知っている全員」（閲覧者）に変更する。
-          ※ 現状アップロード済みの2ファイルはすでにこの設定になっています。
-       3. 各ファイルのURLからIDだけを取り出す（URLの /d/ と /view の間の文字列）。
-          例）https://drive.google.com/file/d/【ここがID】/view
-       4. 下の CONTENTS に thumbId（サムネイルのID）と videoId（動画のID）を持つ
-          エントリを1件追加する。type を '動画' にすると、サムネイル画像付きの
-          カードになり、タップすると動画がその場でポップアップ再生されます
-          （セミナーページの詳細ポップアップと同じ構造）。
+       1. YouTube Studioに動画をアップロードする（サムネイルもYouTube側で設定）。
+       2. 動画のURL（例: https://youtu.be/8ubAUePSwY8）から、末尾のIDだけを取り出す
+          （このカードの場合は "8ubAUePSwY8"）。
+       3. 下の CONTENTS に youtubeId を持つエントリを1件追加する。type を '動画' にすると、
+          YouTubeのサムネイル画像を使ったカードになり、タップするとその場で
+          ポップアップ再生されます（セミナーページの詳細ポップアップと同じ構造）。
+       4. このページのカード表示は「サムネイル・タイトル・概要（2文程度）」のみです。
+          desc は長文にせず、2文程度に収めてください。
 
-     ▼ 動画・サムネイル以外の資料（PDF・スライートなど）
-       thumbId / videoId は付けず、url に共有リンクを入れると、
+     ▼ PDF・スライドなど（サムネイルなし・Googleドライブ運用のまま）
+       ルート： 「HPコンテンツ」 https://drive.google.com/drive/folders/14SgZ8A5yAS4RpGqVpFFAMG0xtY2BLw37
+       youtubeId は付けず、url に共有リンク（「リンクを知っている全員が閲覧可」）を入れると、
        これまで通りテキストカード＋「資料を開く」リンクで表示されます。
      ===================================================== */
   var CATEGORIES = ['AI基礎', 'ツール活用', '現場での運用', '発信・キャリア', '振り返り資料'];
 
-  // Googleドライブの共有ファイルIDから、埋め込み用URLを組み立てるヘルパー
-  function driveThumbUrl(id, w) {
-    return 'https://drive.google.com/thumbnail?id=' + id + '&sz=w' + (w || 1000);
+  // YouTubeの動画IDから、サムネイル画像・埋め込み再生用URLを組み立てるヘルパー
+  function ytThumbUrl(id) {
+    return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
   }
-  function drivePreviewUrl(id) {
-    return 'https://drive.google.com/file/d/' + id + '/preview';
+  function ytEmbedUrl(id) {
+    return 'https://www.youtube-nocookie.com/embed/' + id;
   }
 
   var CONTENTS = [
@@ -190,27 +184,25 @@
     //   url: 'https://drive.google.com/file/d/xxxxxxxx/view',  // 「HPコンテンツ」フォルダ内のファイルの共有リンク
     //   source: '2026/8/10 セミナー'
     // },
-    // 例）動画（サムネイル付き・タップでポップアップ再生）
+    // 例）動画（YouTube・サムネイル付き・タップでポップアップ再生）
     // {
     //   title: '動画のタイトル',
-    //   desc: '内容の説明文。',
+    //   desc: '概要（2文程度）。',
     //   category: 'AI基礎',
     //   date: '2026-08-10',
     //   type: '動画',
-    //   thumbId: 'サムネイル画像のGoogleドライブファイルID',
-    //   videoId: '動画のGoogleドライブファイルID',
+    //   youtubeId: 'YouTube動画のID（例: 8ubAUePSwY8）',
     //   source: '出典・回のメモなど（任意）'
     // },
 
-    // ▼ 「ホームページコンテンツ」フォルダに追加済みの動画（date/category は仮の値です。実際の回・テーマに合わせて調整してください）
+    // ▼ 追加済みの動画（date/category は仮の値です。実際の回・テーマに合わせて調整してください）
     {
       title: 'AI時代の"見えてしまう情報"',
-      desc: 'Claudeなどの共有設定を誤ると、社内資料やお客様情報が検索エンジンから見つかる状態になってしまうことがあります。投稿前のチェックポイントや権限範囲の見直し方を整理した回です。',
+      desc: 'Claudeなどの共有設定を誤ると、社内資料やお客様情報が検索エンジンから見つかる状態になってしまうことがあります。投稿前のチェックポイントや権限範囲の見直し方を紹介します。',
       category: 'AI基礎',
       date: '2026-07-25',
       type: '動画',
-      thumbId: '1f0EgoHpSLRAXwaooMvkWfd1Rnnmr9lMl',
-      videoId: '1mbx13joYpABFiGFzP4pCTzcXQqa-GGDZ',
+      youtubeId: '8ubAUePSwY8',
       source: '週末のAI整え習慣 今週のトピック③'
     },
   ];
@@ -260,11 +252,11 @@
     if (!cvModal || !cvModalBody) return;
     cvModalBody.innerHTML =
       '<div class="cv-video-wrap">' +
-        '<iframe src="' + esc(drivePreviewUrl(c.videoId)) + '" allow="autoplay" allowfullscreen ' +
-        'title="' + esc(c.title) + '"></iframe>' +
+        '<iframe src="' + esc(ytEmbedUrl(c.youtubeId)) + '" title="' + esc(c.title) + '" loading="lazy" ' +
+        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+        'allowfullscreen></iframe>' +
       '</div>' +
       '<div class="cv-modal-content">' +
-        '<p class="cv-modal-meta">' + esc(c.category) + (c.date ? '　' + formatDate(c.date) : '') + '</p>' +
         '<h3 class="cv-modal-title">' + esc(c.title) + '</h3>' +
         '<p class="cv-modal-desc">' + esc(c.desc) + '</p>' +
         (c.source ? '<p class="cv-modal-source">' + esc(c.source) + '</p>' : '') +
@@ -315,27 +307,20 @@
 
     grid.innerHTML = '';
     list.forEach(function (c) {
-      var isVideo = !!(c.thumbId && c.videoId);
+      var isVideo = !!c.youtubeId;
       var card = document.createElement('article');
       card.className = 'content-card' + (isVideo ? ' content-card-video' : '');
 
       if (isVideo) {
+        // カード面はサムネイル・タイトル・概要（2文程度）のみを表示
         card.innerHTML =
           '<button type="button" class="content-card-thumb" aria-label="' + esc(c.title) + 'を再生">' +
-            '<img src="' + esc(driveThumbUrl(c.thumbId)) + '" alt="' + esc(c.title) + '" loading="lazy">' +
+            '<img src="' + esc(ytThumbUrl(c.youtubeId)) + '" alt="' + esc(c.title) + '" loading="lazy">' +
             '<span class="content-play-badge">▶ 動画を見る</span>' +
           '</button>' +
           '<div class="content-card-body">' +
-            '<div class="content-head">' +
-              '<span class="content-cat">' + esc(c.category) + '</span>' +
-              (c.type ? '<span class="content-type">' + esc(c.type) + '</span>' : '') +
-            '</div>' +
             '<h3 class="content-title">' + esc(c.title) + '</h3>' +
             '<p class="content-desc">' + esc(c.desc) + '</p>' +
-            '<p class="content-meta">' +
-              '<span>' + formatDate(c.date) + '</span>' +
-              (c.source ? '<span>' + esc(c.source) + '</span>' : '') +
-            '</p>' +
           '</div>';
         card.querySelector('.content-card-thumb').addEventListener('click', function () { openVideoModal(c); });
       } else {
