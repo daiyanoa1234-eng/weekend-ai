@@ -149,28 +149,70 @@
      ▼ 資料の格納場所（Googleドライブ）
        ルート： 「HPコンテンツ」
          https://drive.google.com/drive/folders/14SgZ8A5yAS4RpGqVpFFAMG0xtY2BLw37
-       動画：  「HPコンテンツ」内の「ホームページコンテンツ」フォルダに格納
+       動画＋サムネイル： 「HPコンテンツ」内の「ホームページコンテンツ」フォルダに格納
          https://drive.google.com/drive/folders/1fBymV8ByPFv8JMMmXpEKlOkLO9QKEiUI
        （PDF・スライドなど動画以外の資料は「HPコンテンツ」直下でも可）
 
-     ▼ 注意：現在このフォルダは非公開（オーナーのみ閲覧可）です。
-       ここに置いたファイルをこのページに載せる前に、共有設定を
-       「リンクを知っている全員が閲覧可」に変更してください。
-       非公開のままだと、サイトの訪問者はリンクを開けません。
+     ▼ 動画コンテンツの追加方法（サムネイル付き・セミナーページと同じカード表示）
+       1. 「ホームページコンテンツ」フォルダに 動画ファイル と サムネイル画像（jpg/png）
+          の2つをアップロードする。
+       2. それぞれのファイルを右クリック→共有→「リンクを知っている全員」（閲覧者）に変更する。
+          ※ 現状アップロード済みの2ファイルはすでにこの設定になっています。
+       3. 各ファイルのURLからIDだけを取り出す（URLの /d/ と /view の間の文字列）。
+          例）https://drive.google.com/file/d/【ここがID】/view
+       4. 下の CONTENTS に thumbId（サムネイルのID）と videoId（動画のID）を持つ
+          エントリを1件追加する。type を '動画' にすると、サムネイル画像付きの
+          カードになり、タップすると動画がその場でポップアップ再生されます
+          （セミナーページの詳細ポップアップと同じ構造）。
+
+     ▼ 動画・サムネイル以外の資料（PDF・スライートなど）
+       thumbId / videoId は付けず、url に共有リンクを入れると、
+       これまで通りテキストカード＋「資料を開く」リンクで表示されます。
      ===================================================== */
   var CATEGORIES = ['AI基礎', 'ツール活用', '現場での運用', '発信・キャリア', '振り返り資料'];
 
+  // Googleドライブの共有ファイルIDから、埋め込み用URLを組み立てるヘルパー
+  function driveThumbUrl(id, w) {
+    return 'https://drive.google.com/thumbnail?id=' + id + '&sz=w' + (w || 1000);
+  }
+  function drivePreviewUrl(id) {
+    return 'https://drive.google.com/file/d/' + id + '/preview';
+  }
+
   var CONTENTS = [
-    // 例）
+    // 例）PDF・スライドなど（サムネイルなしのテキストカード）
     // {
     //   title: '生成AIリテラシー入門 振り返り資料',
     //   desc: '権限管理とデータ保存先の考え方を、出典リンク付きで整理した資料です。',
     //   category: '現場での運用',
     //   date: '2026-08-10',
-    //   type: '動画',                                     // スライド / PDF / 動画 / シート など
-    //   url: 'https://drive.google.com/file/d/xxxxxxxx/view',  // 「ホームページコンテンツ」フォルダ内のファイルの共有リンク
+    //   type: 'スライド',                                     // スライド / PDF / シート など
+    //   url: 'https://drive.google.com/file/d/xxxxxxxx/view',  // 「HPコンテンツ」フォルダ内のファイルの共有リンク
     //   source: '2026/8/10 セミナー'
     // },
+    // 例）動画（サムネイル付き・タップでポップアップ再生）
+    // {
+    //   title: '動画のタイトル',
+    //   desc: '内容の説明文。',
+    //   category: 'AI基礎',
+    //   date: '2026-08-10',
+    //   type: '動画',
+    //   thumbId: 'サムネイル画像のGoogleドライブファイルID',
+    //   videoId: '動画のGoogleドライブファイルID',
+    //   source: '出典・回のメモなど（任意）'
+    // },
+
+    // ▼ 「ホームページコンテンツ」フォルダに追加済みの動画（date/category は仮の値です。実際の回・テーマに合わせて調整してください）
+    {
+      title: 'AI時代の"見えてしまう情報"',
+      desc: 'Claudeなどの共有設定を誤ると、社内資料やお客様情報が検索エンジンから見つかる状態になってしまうことがあります。投稿前のチェックポイントや権限範囲の見直し方を整理した回です。',
+      category: 'AI基礎',
+      date: '2026-07-25',
+      type: '動画',
+      thumbId: '1f0EgoHpSLRAXwaooMvkWfd1Rnnmr9lMl',
+      videoId: '1mbx13joYpABFiGFzP4pCTzcXQqa-GGDZ',
+      source: '週末のAI整え習慣 今週のトピック③'
+    },
   ];
 
   function formatDate(d) {
@@ -209,6 +251,47 @@
     });
   }
 
+  /* ---------- 動画ポップアップ（セミナーページの詳細モーダルと同じ構造） ---------- */
+  var cvModal = document.getElementById('cvModal');
+  var cvModalBody = document.getElementById('cvModalBody');
+  var cvModalClose = document.getElementById('cvModalClose');
+
+  function openVideoModal(c) {
+    if (!cvModal || !cvModalBody) return;
+    cvModalBody.innerHTML =
+      '<div class="cv-video-wrap">' +
+        '<iframe src="' + esc(drivePreviewUrl(c.videoId)) + '" allow="autoplay" allowfullscreen ' +
+        'title="' + esc(c.title) + '"></iframe>' +
+      '</div>' +
+      '<div class="cv-modal-content">' +
+        '<p class="cv-modal-meta">' + esc(c.category) + (c.date ? '　' + formatDate(c.date) : '') + '</p>' +
+        '<h3 class="cv-modal-title">' + esc(c.title) + '</h3>' +
+        '<p class="cv-modal-desc">' + esc(c.desc) + '</p>' +
+        (c.source ? '<p class="cv-modal-source">' + esc(c.source) + '</p>' : '') +
+      '</div>';
+    cvModal.classList.add('open');
+    cvModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('cv-lock');
+  }
+
+  function closeVideoModal() {
+    if (!cvModal) return;
+    cvModal.classList.remove('open');
+    cvModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('cv-lock');
+    if (cvModalBody) cvModalBody.innerHTML = ''; // 再生停止
+  }
+
+  if (cvModalClose) cvModalClose.addEventListener('click', closeVideoModal);
+  if (cvModal) {
+    cvModal.addEventListener('click', function (e) {
+      if (e.target === cvModal || e.target.classList.contains('cv-modal-backdrop')) closeVideoModal();
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeVideoModal();
+  });
+
   function renderLibrary() {
     if (!grid) return;
 
@@ -232,22 +315,45 @@
 
     grid.innerHTML = '';
     list.forEach(function (c) {
+      var isVideo = !!(c.thumbId && c.videoId);
       var card = document.createElement('article');
-      card.className = 'content-card';
-      card.innerHTML =
-        '<div class="content-head">' +
-          '<span class="content-cat">' + esc(c.category) + '</span>' +
-          (c.type ? '<span class="content-type">' + esc(c.type) + '</span>' : '') +
-        '</div>' +
-        '<h3 class="content-title">' + esc(c.title) + '</h3>' +
-        '<p class="content-desc">' + esc(c.desc) + '</p>' +
-        '<p class="content-meta">' +
-          '<span>' + formatDate(c.date) + '</span>' +
-          (c.source ? '<span>' + esc(c.source) + '</span>' : '') +
-        '</p>' +
-        '<a class="content-link" href="' + esc(c.url) + '" target="_blank" rel="noopener">' +
-          '資料を開く ↗' +
-        '</a>';
+      card.className = 'content-card' + (isVideo ? ' content-card-video' : '');
+
+      if (isVideo) {
+        card.innerHTML =
+          '<button type="button" class="content-card-thumb" aria-label="' + esc(c.title) + 'を再生">' +
+            '<img src="' + esc(driveThumbUrl(c.thumbId)) + '" alt="' + esc(c.title) + '" loading="lazy">' +
+            '<span class="content-play-badge">▶ 動画を見る</span>' +
+          '</button>' +
+          '<div class="content-card-body">' +
+            '<div class="content-head">' +
+              '<span class="content-cat">' + esc(c.category) + '</span>' +
+              (c.type ? '<span class="content-type">' + esc(c.type) + '</span>' : '') +
+            '</div>' +
+            '<h3 class="content-title">' + esc(c.title) + '</h3>' +
+            '<p class="content-desc">' + esc(c.desc) + '</p>' +
+            '<p class="content-meta">' +
+              '<span>' + formatDate(c.date) + '</span>' +
+              (c.source ? '<span>' + esc(c.source) + '</span>' : '') +
+            '</p>' +
+          '</div>';
+        card.querySelector('.content-card-thumb').addEventListener('click', function () { openVideoModal(c); });
+      } else {
+        card.innerHTML =
+          '<div class="content-head">' +
+            '<span class="content-cat">' + esc(c.category) + '</span>' +
+            (c.type ? '<span class="content-type">' + esc(c.type) + '</span>' : '') +
+          '</div>' +
+          '<h3 class="content-title">' + esc(c.title) + '</h3>' +
+          '<p class="content-desc">' + esc(c.desc) + '</p>' +
+          '<p class="content-meta">' +
+            '<span>' + formatDate(c.date) + '</span>' +
+            (c.source ? '<span>' + esc(c.source) + '</span>' : '') +
+          '</p>' +
+          '<a class="content-link" href="' + esc(c.url) + '" target="_blank" rel="noopener">' +
+            '資料を開く ↗' +
+          '</a>';
+      }
       grid.appendChild(card);
     });
   }
