@@ -636,10 +636,6 @@ body.sem-lock{overflow:hidden}
 .faq-section .section-title{margin-bottom:22px}
 .faq-item p a{color:var(--teal-deep);font-weight:700;text-decoration:underline}
 
-/* ===== コンテンツページ：学習コンテンツ内の「使い方」ブロック ===== */
-.library-usage{margin-top:64px;padding-top:48px;border-top:1px solid var(--line)}
-.usage-title{font-size:clamp(1.3rem,2.4vw,1.7rem);font-weight:900;color:var(--ink);line-height:1.4;margin-bottom:16px}
-.usage-title .accent{color:var(--teal)}
 
 /* ===== コンテンツページ ===== */
 .content-toolbar{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
