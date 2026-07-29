@@ -69,16 +69,21 @@
     <p class="eyebrow">FAQ</p>
     <h1 class="page-hero-title">よくある<span class="accent">質問</span>。</h1>
     <p class="page-hero-lead">参加前によくいただく質問をまとめました。ここに載っていない点は、朝活やセミナーの申込ページからお問い合わせください。</p>
-    <ul class="faq-jump">
-      <li><a href="#join-q">参加について</a></li>
-      <li><a href="#content-q">内容について</a></li>
-      <li><a href="#seminar-q">セミナーについて</a></li>
-      <li><a href="#material-q">資料・コンテンツについて</a></li>
-    </ul>
   </div>
 </section>
 
-<section class="section faq-section" id="join-q">
+<section class="section faq-tabs">
+  <div class="container container-narrow">
+    <div class="tab-group" role="tablist" aria-label="質問のカテゴリ">
+      <button type="button" class="tab-btn active" id="tab-join-q" data-target="join-q" role="tab" aria-selected="true" aria-controls="join-q">参加について</button>
+      <button type="button" class="tab-btn" id="tab-content-q" data-target="content-q" role="tab" aria-selected="false" aria-controls="content-q">内容について</button>
+      <button type="button" class="tab-btn" id="tab-seminar-q" data-target="seminar-q" role="tab" aria-selected="false" aria-controls="seminar-q">セミナーについて</button>
+      <button type="button" class="tab-btn" id="tab-material-q" data-target="material-q" role="tab" aria-selected="false" aria-controls="material-q">資料・コンテンツについて</button>
+    </div>
+  </div>
+</section>
+
+<div class="tab-panel faq-section" id="join-q" role="tabpanel" aria-labelledby="tab-join-q">
   <div class="container container-narrow">
     <p class="eyebrow">JOIN</p>
     <h2 class="section-title">参加について</h2>
@@ -109,8 +114,8 @@
       </details>
     </div>
   </div>
-</section>
-<section class="section faq-section alt-bg" id="content-q">
+</div>
+<div class="tab-panel faq-section" id="content-q" role="tabpanel" aria-labelledby="tab-content-q" hidden>
   <div class="container container-narrow">
     <p class="eyebrow">CONTENT</p>
     <h2 class="section-title">内容について</h2>
@@ -129,8 +134,8 @@
       </details>
     </div>
   </div>
-</section>
-<section class="section faq-section" id="seminar-q">
+</div>
+<div class="tab-panel faq-section" id="seminar-q" role="tabpanel" aria-labelledby="tab-seminar-q" hidden>
   <div class="container container-narrow">
     <p class="eyebrow">SEMINARS</p>
     <h2 class="section-title">セミナーについて</h2>
@@ -153,8 +158,8 @@
       </details>
     </div>
   </div>
-</section>
-<section class="section faq-section alt-bg" id="material-q">
+</div>
+<div class="tab-panel faq-section" id="material-q" role="tabpanel" aria-labelledby="tab-material-q" hidden>
   <div class="container container-narrow">
     <p class="eyebrow">MATERIALS</p>
     <h2 class="section-title">資料・コンテンツについて</h2>
@@ -177,7 +182,7 @@
       </details>
     </div>
   </div>
-</section>
+</div>
 
 <!-- ===== 最終CTA ===== -->
 <section class="section final-cta">
@@ -213,6 +218,6 @@
   </div>
 </footer>
 
-
+<script src="tabs.js"></script>
 </body>
 </html>
