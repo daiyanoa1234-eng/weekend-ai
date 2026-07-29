@@ -618,19 +618,28 @@ body.sem-lock{overflow:hidden}
 .next-label{font-size:.74rem;font-weight:700;color:var(--teal-deep);letter-spacing:.04em}
 .next-title{font-size:.92rem;font-weight:700;color:var(--ink);line-height:1.6}
 
-/* ===== FAQページ ===== */
-.faq-jump{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin-top:24px}
-.page-jump{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin-top:24px}
-.faq-jump a,
-.page-jump a{
-  display:inline-block;font-size:.82rem;font-weight:700;color:var(--teal-deep);
-  background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;transition:.15s;
+/* ===== タブ切替（共通：contents.html / faq.html） ===== */
+.tab-group{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.tab-btn{
+  font-size:.9rem;font-weight:700;color:var(--ink-soft);
+  background:#fff;border:1.5px solid var(--line);border-radius:999px;
+  padding:11px 22px;cursor:pointer;transition:.15s;
 }
-.faq-jump a:hover,
-.page-jump a:hover{background:var(--sky);border-color:var(--teal)}
-.faq-section{padding:56px 0}
+.tab-btn:hover{border-color:var(--teal);color:var(--teal-deep)}
+.tab-btn.active{background:var(--cta-grad);border-color:transparent;color:#fff;box-shadow:0 8px 18px rgba(19,115,160,.28)}
+.tab-panel{padding-top:36px}
+.content-tabs{padding-bottom:36px}
+
+/* ===== FAQページ ===== */
+.faq-tabs{padding-top:44px;padding-bottom:0}
+.faq-section{padding:36px 0 56px}
 .faq-section .section-title{margin-bottom:22px}
 .faq-item p a{color:var(--teal-deep);font-weight:700;text-decoration:underline}
+
+/* ===== コンテンツページ：学習コンテンツ内の「使い方」ブロック ===== */
+.library-usage{margin-top:64px;padding-top:48px;border-top:1px solid var(--line)}
+.usage-title{font-size:clamp(1.3rem,2.4vw,1.7rem);font-weight:900;color:var(--ink);line-height:1.4;margin-bottom:16px}
+.usage-title .accent{color:var(--teal)}
 
 /* ===== コンテンツページ ===== */
 .content-toolbar{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
@@ -753,4 +762,6 @@ body.sem-lock{overflow:hidden}
 @media (max-width:680px){
   .content-grid{grid-template-columns:1fr}
   .page-hero-actions .btn{width:100%}
+  .tab-group{gap:8px}
+  .tab-btn{flex:1 1 auto;font-size:.84rem;padding:10px 14px;text-align:center}
 }
