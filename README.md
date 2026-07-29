@@ -93,8 +93,17 @@ weekend-ai/
 カテゴリ：`AI基礎` / `ツール活用` / `現場での運用` / `発信・キャリア` / `振り返り資料`
 （増やす場合は `contents.js` 冒頭の `CATEGORIES` に追記）
 
+### Googleドライブの格納場所
+
+- ルートフォルダ：「HPコンテンツ」
+  https://drive.google.com/drive/folders/14SgZ8A5yAS4RpGqVpFFAMG0xtY2BLw37
+- **動画**は、その中の「ホームページコンテンツ」フォルダに格納します
+  https://drive.google.com/drive/folders/1fBymV8ByPFv8JMMmXpEKlOkLO9QKEiUI
+  （PDF・スライドなど動画以外の資料は「HPコンテンツ」直下でも構いません）
+
 **Googleドライブ側の設定（重要）**：共有設定を「リンクを知っている全員が閲覧可」にしてからURLを貼ってください。
-「制限付き」のままだと参加者側で開けません。
+「制限付き」のままだと参加者側で開けません。**現時点でこの2つのフォルダはオーナーのみ閲覧可の非公開設定です。**
+ここに置いたファイルを実際にサイトへ載せる前に、必ず共有設定を変更してください。
 
 資料が0件のときは「資料を準備しています」という案内とPodcastへの導線が自動で表示され、
 1件でも追加すると自動でカード一覧に切り替わります。
@@ -196,7 +205,3 @@ FAQも「参加について／内容について／セミナーについて／�
 `badges.png` / `benefits-icons.png` / `join-flow.png` / `logo-mark.png` / `midweek-slides.png` / `podcast-dashboard.png`
 
 ※ `source-material.png` は参加特典ページで使用中です。
-- URL限定公開のエピソードは「URLを知っていれば誰でも再生できる」状態です。完全非公開にはできない点に注意（限定公開の仕様）。
-- Publicリポジトリに、パスワード・OAuthシークレット・サービスアカウントJSON等の秘密情報は置かない。
-- 申込URLの招待コードは公開ページから誰でも見えます。限定運用したい場合は、後から無効化・差し替えできる招待リンクを使用してください。
-- 公開時は GitHub Pages の「Enforce HTTPS」を有効化。
