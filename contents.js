@@ -46,6 +46,7 @@
     { url: 'https://stand.fm/episodes/6a516dc980a4752b43a0c567', no: 7, theme: '', date: '7/11' },
     { url: 'https://stand.fm/episodes/6a5aa5063f95b14bbd46428f', no: 8, theme: '', date: '7/18' },
     { url: 'https://stand.fm/episodes/6a63df4622340506b937e4bb', no: 9, theme: '', date: '7/25' },
+    { url: 'https://stand.fm/episodes/6a6d2976cc75729749e74c47', no: 10, theme: '', date: '8/1' },
   ];
   // 既定の表示順： 'newest'（新しい回が上＝降順）/ 'oldest'（第1回が上＝昇順）
   var POD_ORDER = 'newest';
