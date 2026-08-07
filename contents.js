@@ -37,16 +37,17 @@
      ・theme（任意）を入れるとカードに副題が表示されます
      ===================================================== */
   var EPISODES = [
-    { url: 'https://stand.fm/episodes/6a405981f6da955ea231d2a6', no: 1, theme: '', date: '5/30' },
-    { url: 'https://stand.fm/episodes/6a4059c8ac08572069cc0537', no: 2, theme: '', date: '6/6' },
-    { url: 'https://stand.fm/episodes/6a405a0cf6da955ea231d2b4', no: 3, theme: '', date: '6/13' },
-    { url: 'https://stand.fm/episodes/6a405a81f6da955ea231d2c6', no: 4, theme: '', date: '6/20' },
-    { url: 'https://stand.fm/episodes/6a405ed967dded2eddb5eb93', no: 5, theme: '', date: '6/27' },
-    { url: 'https://stand.fm/episodes/6a483bd107e378c56bc832b6', no: 6, theme: '', date: '7/4' },
-    { url: 'https://stand.fm/episodes/6a516dc980a4752b43a0c567', no: 7, theme: '', date: '7/11' },
-    { url: 'https://stand.fm/episodes/6a5aa5063f95b14bbd46428f', no: 8, theme: '', date: '7/18' },
-    { url: 'https://stand.fm/episodes/6a63df4622340506b937e4bb', no: 9, theme: '', date: '7/25' },
-    { url: 'https://stand.fm/episodes/6a6d2976cc75729749e74c47', no: 10, theme: '', date: '8/1' },
+    { url: 'https://stand.fm/episodes/6a405981f6da955ea231d2a6', no: 1, theme: 'AI相談の落とし穴〜安倍全監督の事例と医療現場のリスク〜', date: '5/30' },
+    { url: 'https://stand.fm/episodes/6a4059c8ac08572069cc0537', no: 2, theme: 'AIに代替されるPT・選ばれるPT〜臨床とテクノロジーの境界線〜', date: '6/6' },
+    { url: 'https://stand.fm/episodes/6a405a0cf6da955ea231d2b4', no: 3, theme: 'Claude最強モデル登場！Fable 5の実力とスクショアプリ開発', date: '6/13' },
+    { url: 'https://stand.fm/episodes/6a405a81f6da955ea231d2c6', no: 4, theme: 'Claude最上位モデルが突然停止？性能進化とAI停止リスクに備える', date: '6/20' },
+    { url: 'https://stand.fm/episodes/6a405ed967dded2eddb5eb93', no: 5, theme: 'どこまで入れて大丈夫？個人情報チェッカーで学ぶ医療AIリスク', date: '6/27' },
+    { url: 'https://stand.fm/episodes/6a483bd107e378c56bc832b6', no: 6, theme: 'Claude Fable 5再開！迫る従量課金化と最上位AIの活用法', date: '7/4' },
+    { url: 'https://stand.fm/episodes/6a516dc980a4752b43a0c567', no: 7, theme: 'GPT-5.6解禁と音声即時通訳！デジタル庁データから見る医療DX', date: '7/11' },
+    { url: 'https://stand.fm/episodes/6a5aa5063f95b14bbd46428f', no: 8, theme: 'Gemini Notebook改名とGoogle Vids動画化', date: '7/18' },
+    { url: 'https://stand.fm/episodes/6a63df4622340506b937e4bb', no: 9, theme: 'なぜ日本のDXは遅れる？厚労省セキュリティ研修と現場のリテラシー', date: '7/25' },
+    { url: 'https://stand.fm/episodes/6a6d2976cc75729749e74c47', no: 10, theme: 'Google Lyriaでテーマ曲解禁！音楽生成AIの衝撃と実用性', date: '8/1' },
+    { url: 'https://stand.fm/episodes/6a7655c7cd3fe770e9e785fb', no: 11, theme: 'AI時代のファイル管理術！命名規則とアクセス権限の設計ポイント', date: '8/8' }, 
   ];
   // 既定の表示順： 'newest'（新しい回が上＝降順）/ 'oldest'（第1回が上＝昇順）
   var POD_ORDER = 'newest';
