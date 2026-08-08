@@ -28,6 +28,16 @@
 </head>
 <body>
 
+<!-- モバイル下部の固定CTA（860px以下で表示） -->
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-info">
+    <span class="sticky-title">毎週土曜 朝6:00〜／参加無料</span>
+    <span class="sticky-sub" data-countdown="compact"></span>
+  </span>
+  <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-sticky" class="btn btn-cta">申し込む</a>
+</div>
+
+
 <!-- ===== Header ===== -->
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
@@ -58,7 +68,7 @@
       <a href="contents.html">コンテンツ</a>
       <a href="faq.html">FAQ</a>
     </nav>
-    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta header-cta">無料で参加を申し込む</a>
+    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-header" target="_blank" rel="noopener" class="btn btn-cta header-cta">無料で参加を申し込む</a>
     <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -73,11 +83,12 @@
         <span class="pill"><span class="pill-ico">📅</span>毎週土曜 朝6:00〜</span>
         <span class="pill"><span class="pill-ico">💻</span>オンライン開催</span>
       </div>
+      <div class="countdown" data-countdown aria-live="polite"></div>
       <h1 class="hero-title">週末の朝に。<br>整える習慣を。</h1>
       <p class="hero-sub">1週間のAI情報と実践知を、土曜朝6時に整理する朝活コミュニティ。</p>
       <p class="hero-lead">生成AIのニュースやアップデートは、毎日のように流れてきます。でも、すべてを一人で追い続ける必要はありません。土曜朝の勉強会とPodcastで、忙しい人でも無理なくAI情報をキャッチアップできます。週の途中の情報収集・共有には、コメキャリメンバーとして参加できます。</p>
       <div class="hero-actions">
-        <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta">無料で次回の朝活に申し込む</a>
+        <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-hero" target="_blank" rel="noopener" class="btn btn-cta">無料で次回の朝活に申し込む</a>
         <a href="contents.html#podcast" class="btn btn-ghost">▶ Podcastを聴いてみる</a>
       </div>
       <ul class="hero-tags">
@@ -87,7 +98,7 @@
       <p class="cta-note">朝活への参加は無料です。週の途中の情報収集・共有に関わるには、コメキャリへの参加が必要です。</p>
     </div>
     <div class="hero-visual">
-      <img src="assets/hero-main.png" alt="朝の光が入るデスクでAI情報を整える様子" loading="eager">
+      <img src="assets/hero-main.png" alt="朝の光が入るデスクでAI情報を整える様子" width="1448" height="1086" fetchpriority="high" decoding="async">
       <div class="hero-float card-float">
         <span class="dot"></span> 土曜の朝、AIと自分をアップデート。
       </div>
@@ -138,7 +149,7 @@
       <p class="concept-emph">AIに振り回されるのではなく、自分のペースで学び、使い、暮らしに取り入れていく。それが、週末のAI整え習慣です。</p>
     </div>
     <div class="concept-visual">
-      <img src="assets/concept-pillars.png" alt="AIを整える・仕事を整える・週末を整える 3層コンセプト図解">
+      <img src="assets/concept-pillars.png" alt="AIを整える・仕事を整える・週末を整える 3層コンセプト図解" width="1448" height="1086" loading="lazy" decoding="async">
     </div>
   </div>
 </section>
@@ -159,7 +170,7 @@
     </ul>
     <p class="problem-close">そんな人のために、週の途中で情報を整理し、土曜朝に学び、Podcastで後から復習できる仕組みをつくりました。</p>
     <div class="section-cta">
-      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta">無料で参加を申し込む</a>
+      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-section1" target="_blank" rel="noopener" class="btn btn-cta">無料で参加を申し込む</a>
     </div>
   </div>
 </section>
@@ -172,7 +183,7 @@
     <p class="section-lead">週末のAI整え習慣は、土曜朝の勉強会だけで完結する企画ではありません。日々流れてくるAI情報を、週の途中で整理し、土曜朝に実務へ落とし込む、1週間の学習サイクルとして運用します。</p>
 
     <ol class="timeline">
-      <li class="tl-item tl-hot">
+      <li class="tl-item tl-hot" data-days="6">
         <span class="tl-day">土曜 6:00</span>
         <h3>朝活勉強会</h3>
         <p>1週間のAI情報を整理し、来週の仕事に活かす視点を共有。</p>
@@ -182,22 +193,22 @@
         <h3>次回スレッド立ち上げ</h3>
         <p>Slack「生成AI活用部屋」でスレッドを立ち上げ。リアクション／返信で参加表明できます。</p>
       </li>
-      <li class="tl-item">
+      <li class="tl-item" data-days="0,1">
         <span class="tl-day">日曜・月曜</span>
         <h3>AI情報のストック</h3>
         <p>気になったニュース、試したこと、実践メモを共有。</p>
       </li>
-      <li class="tl-item tl-mid">
+      <li class="tl-item tl-mid" data-days="2">
         <span class="tl-day">火曜</span>
         <h3>中間共有①</h3>
         <p>週前半の重要トピックを整理し、短時間で把握できる形に。</p>
       </li>
-      <li class="tl-item">
+      <li class="tl-item" data-days="3,4">
         <span class="tl-day">水曜・木曜</span>
         <h3>追加情報・視点の補足</h3>
         <p>メンバーの視点や新しい情報を加えてブラッシュアップ。</p>
       </li>
-      <li class="tl-item tl-mid">
+      <li class="tl-item tl-mid" data-days="5">
         <span class="tl-day">金曜</span>
         <h3>中間共有②・最終整理</h3>
         <p>土曜朝に向けて、週後半の情報と重要ポイントを整理。</p>
@@ -210,7 +221,7 @@
     </ol>
     <p class="cycle-note">火曜・金曜の中間共有があるから、週末に一気に追い込まなくても大丈夫。少しずつ整えて、土曜朝に理解を深める流れをつくっています。<br><small>※週の途中の情報収集・共有は、コメキャリメンバー向けの活動です。</small></p>
     <figure class="cycle-figure">
-      <img src="assets/week-cycle.png" alt="1週間の整えサイクル図解">
+      <img src="assets/week-cycle.png" alt="1週間の整えサイクル図解" width="1672" height="941" loading="lazy" decoding="async">
     </figure>
   </div>
 </section>
@@ -219,7 +230,7 @@
 <section class="section reason" id="reason">
   <div class="container reason-grid">
     <div class="reason-visual">
-      <img src="assets/reason-hero.png" alt="朝のデスクで学ぶ人と、週末の家族時間を想起させるビジュアル">
+      <img src="assets/reason-hero.png" alt="朝のデスクで学ぶ人と、週末の家族時間を想起させるビジュアル" width="1672" height="941" loading="lazy" decoding="async">
     </div>
     <div class="reason-copy">
       <p class="eyebrow light">WHY 6 AM</p>
@@ -228,6 +239,52 @@
       <p>金曜夜に流されすぎず、週末の朝を前向きに始めるため。朝のうちに学びを終えて、日中を家族や自分のために使うため。平日に忙しくても、週末の最初に自分の学びを取り戻すため。</p>
       <p>主催者自身も、平日は仕事や別の活動が重なり、保育園に通う息子とゆっくり過ごす時間を十分に取れない日があります。だからこそ、土曜の朝に学びを置き、AI情報を整え、週末のスタートを整える。</p>
       <p class="reason-emph">週末のAI整え習慣は、AIを学ぶためだけの場ではありません。仕事も、学びも、家族との時間も大切にしたい人が、自分の時間を取り戻すための週末習慣です。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 参加者の声（アンケート集計より） ===== -->
+<section class="section voices" id="voices">
+  <div class="container">
+    <p class="eyebrow">VOICES</p>
+    <h2 class="section-title">続けている人が、<br>実際に受け取っているもの。</h2>
+    <p class="section-lead">毎回の朝活後にアンケートをとり、内容と進め方を毎週見直しています。ここに出ているのは、その回答をそのまま匿名で掲載したものです。</p>
+
+    <div class="voice-stats">
+      <div class="stat-card">
+        <span class="stat-value"><span id="statSatisfaction">8.2</span><span class="stat-unit">/10</span></span>
+        <span class="stat-label">平均満足度</span>
+        <span class="stat-sub">参加後アンケートより</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value"><span id="statResponses">92</span><span class="stat-unit">件</span></span>
+        <span class="stat-label">アンケート回答数</span>
+        <span class="stat-sub">第2回〜第11回の累計</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value"><span id="statNagara">34.8</span><span class="stat-unit">%</span></span>
+        <span class="stat-label">「ながら参加」</span>
+        <span class="stat-sub">家事・育児・移動中に耳だけで参加</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value"><span id="statSessions">11</span><span class="stat-unit">回</span></span>
+        <span class="stat-label">これまでの開催</span>
+        <span class="stat-sub">毎週土曜、休まず継続中</span>
+      </div>
+    </div>
+
+    <div class="voice-viewport" id="voiceViewport">
+      <button type="button" class="voice-nav voice-prev" id="voicePrev" aria-label="前の声を見る">‹</button>
+      <div class="voice-track" id="voiceTrack" aria-live="polite"></div>
+      <button type="button" class="voice-nav voice-next" id="voiceNext" aria-label="次の声を見る">›</button>
+    </div>
+    <div class="voice-dots" id="voiceDots"></div>
+
+    <p class="voice-note" id="surveyNote">第2回〜第11回の参加後アンケート（回答92件）より。運営メンバーの回答を含みます。</p>
+
+    <div class="section-cta">
+      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-voices" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
     </div>
   </div>
 </section>
@@ -258,7 +315,7 @@
     </div>
 
     <div class="section-cta">
-      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
+      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-section2" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
       <a href="join.html" class="btn btn-ghost">参加方法をくわしく見る</a>
     </div>
   </div>
@@ -270,7 +327,7 @@
     <p class="eyebrow">RECOMMENDED FOR</p>
     <h2 class="section-title">こんな人に<span class="accent">おすすめ</span>です。</h2>
     <figure class="recommend-banner">
-      <img src="assets/recommend-banner.png" alt="こんな人におすすめ：AI情報を取り逃したくない方／AI領域でブランディングしたい方／PDCAを実践で体験したい方">
+      <img src="assets/recommend-banner.png" alt="こんな人におすすめ：AI情報を取り逃したくない方／AI領域でブランディングしたい方／PDCAを実践で体験したい方" width="1672" height="941" loading="lazy" decoding="async">
     </figure>
 
     <div class="recommend-grid">
@@ -301,7 +358,7 @@
     <p class="section-lead">週末のAI整え習慣は、AIに関する小さな気づきや疑問を持ち寄り、土曜朝の学びにつなげるコミュニティです。新情報や便利ツールだけでなく、「これってどう使えばいい？」「この場合どう考える？」という相談も歓迎します。</p>
 
     <figure class="recommend-banner">
-      <img src="assets/houserule-banner.png" alt="ハウスルール：週1回は投稿しよう／現場でどう使えるか考えよう／忙しさを尊重しよう。合言葉「悩むぐらいなら、書き出す」">
+      <img src="assets/houserule-banner.png" alt="ハウスルール：週1回は投稿しよう／現場でどう使えるか考えよう／忙しさを尊重しよう。合言葉「悩むぐらいなら、書き出す」" width="1672" height="941" loading="lazy" decoding="async">
     </figure>
 
     <div class="recommend-grid">
@@ -334,7 +391,7 @@
 <section class="section host" id="host">
   <div class="container host-grid">
     <div class="host-visual">
-      <img src="assets/host-message.png" alt="朝にAIで学び、日中は家族との時間を大切にする暮らしのイメージ">
+      <img src="assets/host-message.png" alt="朝にAIで学び、日中は家族との時間を大切にする暮らしのイメージ" width="1672" height="941" loading="lazy" decoding="async">
     </div>
     <div class="host-copy">
       <p class="eyebrow">MESSAGE</p>
@@ -364,7 +421,7 @@
       </div>
       <p class="join-desc">朝の30分で、1週間のAI情報を整理し、来週の仕事に活かすヒントを持ち帰る。週末の日中を大切に使いたい人のための、コメキャリ内の朝活コミュニティです。</p>
       <div class="section-cta">
-        <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta">無料で次回の朝活に申し込む</a>
+        <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-section3" target="_blank" rel="noopener" class="btn btn-cta">無料で次回の朝活に申し込む</a>
         <a href="contents.html#podcast" class="btn btn-ghost">Podcastで雰囲気を見る</a>
       </div>
     </div>
@@ -402,8 +459,9 @@
   <div class="container">
     <h2 class="final-title">週末の朝に。整える習慣を。</h2>
     <p class="final-body">AI情報を一人で追い続けなくても大丈夫。週の途中で整理し、土曜朝に学び、Podcastで後から復習する。来週の仕事と、週末の時間を整える朝活をはじめてみませんか？</p>
+    <div class="countdown" data-countdown aria-live="polite"></div>
     <div class="section-cta">
-      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
+      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-final" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
       <a href="contents.html#podcast" class="btn btn-ghost btn-ghost-light">▶ Podcastを聴いてみる</a>
     </div>
   </div>
@@ -431,6 +489,8 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script src="voices.js"></script>
 </body>
 </html>
