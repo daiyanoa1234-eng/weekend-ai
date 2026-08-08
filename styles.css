@@ -390,11 +390,6 @@ strong{color:inherit}
 .dash-rec-title{display:block;font-weight:700;color:var(--ink);font-size:1.02rem;line-height:1.5;margin-top:2px}
 
 .pod-state{text-align:center;padding:54px 20px;color:var(--ink-soft)}
-.spinner{
-  width:42px;height:42px;border-radius:50%;margin:0 auto 16px;
-  border:4px solid var(--mist);border-top-color:var(--teal);animation:spin 1s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
 .pod-error{background:#FFF4EC;border:1px solid #F3C9A8;border-radius:14px;color:#9A4B22;font-size:.92rem}
 
 .pod-setup{
@@ -803,4 +798,317 @@ body.cv-lock{overflow:hidden}
   .page-hero-actions .btn{width:100%}
   .tab-group{gap:8px}
   .tab-btn{flex:1 1 auto;font-size:.84rem;padding:10px 14px;text-align:center}
+}
+
+
+/* =========================================================
+   ▼▼▼ ここから下は「動的演出」で追加したスタイルです ▼▼▼
+   （2026-08 追加：カウントダウン／固定CTA／スクロール演出／
+     参加者の声／進捗バー／今日ここハイライト）
+   ========================================================= */
+
+/* ===== ページ遷移のクロスフェード（対応ブラウザのみ） ===== */
+@view-transition { navigation: auto; }
+
+/* =========================================================
+   カウントダウン（ページ内で一番目を引く要素にする）
+   ========================================================= */
+.countdown{
+  display:inline-flex;flex-direction:column;align-items:flex-start;gap:11px;
+  position:relative;
+  padding:20px 28px;margin-bottom:24px;border-radius:22px;
+  background:linear-gradient(135deg,#FFFFFF 0%,#F0F9FD 100%);
+  border:2px solid var(--teal);
+  box-shadow:0 18px 40px rgba(19,115,160,.22),0 0 0 7px rgba(70,190,220,.10);
+}
+.countdown .cd-label{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:.9rem;font-weight:900;color:var(--teal-deep);letter-spacing:.03em;
+}
+.countdown .cd-label-ico{font-size:1.05rem}
+
+.countdown .cd-clock{display:inline-flex;align-items:stretch;gap:9px}
+.cd-unit{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:74px;padding:11px 8px 9px;border-radius:14px;
+  background:var(--deep-grad);color:#fff;
+  box-shadow:0 8px 18px rgba(16,58,82,.32);
+}
+.cd-unit b{
+  font-family:"Montserrat",sans-serif;font-weight:700;font-size:2.3rem;line-height:1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.cd-unit i{
+  font-style:normal;font-size:.7rem;font-weight:700;margin-top:5px;
+  color:rgba(255,255,255,.82);letter-spacing:.06em;
+}
+.cd-unit[hidden]{display:none}
+
+/* 秒だけ朝日色にして、1秒ごとにめくれる */
+.cd-unit-sec{background:linear-gradient(160deg,#F6B443 0%,#EE8B3D 100%);box-shadow:0 8px 18px rgba(238,139,61,.42)}
+.cd-unit-sec.tick b{animation:cdTick .42s cubic-bezier(.22,.61,.36,1)}
+@keyframes cdTick{from{transform:translateY(-9px);opacity:.25}to{transform:none;opacity:1}}
+
+.countdown .cd-when{font-size:.78rem;font-weight:700;color:var(--ink-soft)}
+
+/* 開催中 */
+.countdown.is-live{
+  border-color:var(--sun-deep);
+  background:linear-gradient(135deg,#FFF7EC 0%,#FFEEDA 100%);
+  box-shadow:0 18px 40px rgba(238,139,61,.28),0 0 0 7px rgba(244,167,66,.16);
+}
+.cd-live{display:inline-flex;align-items:center;gap:12px;font-size:1.5rem;font-weight:900;color:var(--sun-deep)}
+.cd-live-dot{
+  width:14px;height:14px;border-radius:50%;background:var(--sun-deep);flex:0 0 auto;
+  box-shadow:0 0 0 0 rgba(238,139,61,.6);animation:cdPulse 1.6s infinite;
+}
+@keyframes cdPulse{
+  0%  {box-shadow:0 0 0 0 rgba(238,139,61,.55)}
+  70% {box-shadow:0 0 0 14px rgba(238,139,61,0)}
+  100%{box-shadow:0 0 0 0 rgba(238,139,61,0)}
+}
+
+/* 暗い背景のセクション（最終CTAなど）に置いたとき */
+.final-cta .countdown,.concept .countdown,.reason .countdown{
+  background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.42);
+  backdrop-filter:blur(10px);box-shadow:0 18px 40px rgba(0,0,0,.22);
+  margin-left:auto;margin-right:auto;align-items:center;
+}
+.final-cta .countdown::after{display:none}
+.final-cta .cd-label{color:var(--cyan)}
+.final-cta .cd-unit{background:#fff;color:var(--ink);box-shadow:0 8px 18px rgba(0,0,0,.24)}
+.final-cta .cd-unit i{color:var(--ink-soft)}
+.final-cta .cd-unit-sec{background:linear-gradient(160deg,#F6B443,#EE8B3D);color:#fff}
+.final-cta .cd-unit-sec i{color:rgba(255,255,255,.85)}
+.final-cta .cd-when{color:rgba(255,255,255,.82)}
+
+/* 固定CTAバーの中で使うコンパクト表示 */
+.countdown-compact{
+  display:inline-flex;flex-direction:row;align-items:baseline;gap:6px;
+  padding:0;margin:0;border:none;border-radius:0;background:none;box-shadow:none;overflow:visible;
+}
+.countdown-compact::after{display:none}
+.cd-c-label{font-size:.7rem;font-weight:700;color:var(--ink-soft)}
+.cd-c-value{
+  font-family:"Montserrat",sans-serif;font-weight:700;font-size:.92rem;
+  color:var(--teal-deep);font-variant-numeric:tabular-nums;letter-spacing:.01em;
+}
+.sticky-cta .sticky-sub.countdown-compact{display:inline-flex;align-items:baseline;gap:6px}
+.sticky-cta .sticky-sub.is-live{padding:0;margin:0;border:none;background:none;box-shadow:none}
+.sticky-cta .cd-live{font-size:.82rem;gap:7px}
+.sticky-cta .cd-live-dot{width:8px;height:8px}
+.sticky-cta .cd-when{display:none}
+
+@media (max-width:680px){
+  .countdown{padding:16px 18px;width:100%;align-items:center;border-radius:18px}
+  .countdown .cd-clock{gap:7px;width:100%;justify-content:center}
+  .cd-unit{min-width:0;flex:1 1 0;padding:9px 4px 7px;border-radius:12px}
+  .cd-unit b{font-size:1.75rem}
+  .cd-unit i{font-size:.64rem}
+  .cd-live{font-size:1.2rem}
+  .countdown .cd-when{font-size:.72rem;text-align:center}
+}
+
+/* ===== モバイル下部の固定CTA ===== */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:110;
+  display:none;align-items:center;gap:12px;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));
+  background:rgba(255,255,255,.96);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);box-shadow:0 -6px 22px rgba(20,80,120,.14);
+  transform:translateY(110%);transition:transform .28s cubic-bezier(.22,.61,.36,1);
+}
+.sticky-cta.show{transform:translateY(0)}
+.sticky-cta .sticky-info{flex:1;min-width:0;line-height:1.35}
+.sticky-cta .sticky-title{display:block;font-size:.78rem;font-weight:700;color:var(--ink)}
+.sticky-cta .sticky-sub{display:block;font-size:.72rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.sticky-cta .btn{width:auto;flex:0 0 auto;padding:12px 20px;font-size:.88rem;white-space:nowrap}
+@media (max-width:860px){
+  .sticky-cta{display:flex}
+  body{padding-bottom:0}
+}
+
+/* =========================================================
+   週間サイクル：今日のステップをポップアップさせる
+   ========================================================= */
+.timeline{position:relative}
+.timeline.has-today{margin-top:52px}
+
+/* 今日以外は一歩引かせて、今日だけを浮かせる */
+.timeline.has-today .tl-item{
+  transition:transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .35s ease,opacity .35s ease,filter .35s ease;
+  opacity:.5;filter:saturate(.55);
+}
+.timeline.has-today:hover .tl-item{opacity:.72}
+.timeline.has-today .tl-item.is-today,
+.timeline.has-today:hover .tl-item.is-today{opacity:1;filter:none}
+
+.tl-item.is-today{
+  z-index:3;
+  border:2px solid var(--sun);
+  background:#fff;
+  box-shadow:0 22px 46px rgba(20,80,120,.26),0 0 0 6px rgba(244,167,66,.18);
+}
+.tl-item.is-today.tl-hot{background:var(--cta-grad);border-color:var(--sun)}
+.tl-item.is-today .tl-day{color:var(--sun-deep)}
+.tl-item.is-today.tl-hot .tl-day{color:#FFE7C4}
+
+/* 画面に入った瞬間に「ポンッ」と飛び出して、そのあとゆっくり呼吸する */
+.tl-item.is-today.pop{animation:tlPopIn .58s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes tlPopIn{
+  0%  {transform:translateY(0) scale(1)}
+  60% {transform:translateY(-16px) scale(1.12)}
+  100%{transform:translateY(-10px) scale(1.07)}
+}
+
+/* 上に出る吹き出し */
+.tl-today-badge{
+  position:absolute;left:50%;top:-40px;transform:translateX(-50%);
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  padding:8px 15px;border-radius:999px;
+  background:linear-gradient(135deg,#F6B443,#EE8B3D);color:#fff;
+  font-size:.76rem;font-weight:900;letter-spacing:.02em;
+  box-shadow:0 10px 22px rgba(238,139,61,.48);
+  opacity:0;
+}
+.tl-item.pop .tl-today-badge{animation:tlBadgeIn .45s cubic-bezier(.34,1.56,.64,1) .22s both}
+@keyframes tlBadgeIn{from{opacity:0;transform:translateX(-50%) translateY(10px) scale(.7)}
+                     to  {opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+/* 吹き出しのしっぽ */
+.tl-today-badge::after{
+  content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
+  border:8px solid transparent;border-bottom:0;border-top-color:#EE8B3D;
+}
+.tl-today-dot{
+  width:8px;height:8px;border-radius:50%;background:#fff;flex:0 0 auto;
+  box-shadow:0 0 0 2px rgba(255,255,255,.35);
+}
+
+/* 1カラムになるモバイルでは、吹き出しを右側に寄せる */
+@media (max-width:680px){
+  .timeline.has-today{margin-top:0}
+  .tl-item.is-today.pop{animation:tlPopInSp .5s cubic-bezier(.34,1.56,.64,1) both}
+  @keyframes tlPopInSp{from{transform:scale(.97)}60%{transform:scale(1.03)}to{transform:none}}
+  .tl-item.is-today{padding-right:104px}
+  .tl-today-badge{left:auto;right:10px;top:50%;transform:translateY(-50%);font-size:.7rem;padding:7px 12px}
+  .tl-item.pop .tl-today-badge{animation:tlBadgeInSp .4s cubic-bezier(.34,1.56,.64,1) .18s both}
+  @keyframes tlBadgeInSp{from{opacity:0;transform:translateY(-50%) scale(.7)}
+                         to  {opacity:1;transform:translateY(-50%) scale(1)}}
+  .tl-today-badge::after{display:none}
+}
+
+/* ===== 参加者の声 ＆ アンケート集計 ===== */
+.voices{background:linear-gradient(180deg,var(--sky-2) 0%,var(--sky) 100%)}
+
+.voice-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:38px;
+}
+.stat-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 20px;text-align:center;box-shadow:var(--shadow-sm);
+  position:relative;overflow:hidden;
+}
+.stat-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--cta-grad)}
+.stat-value{
+  display:block;font-family:"Montserrat",sans-serif;font-weight:700;
+  font-size:2.4rem;line-height:1.1;color:var(--teal);
+  font-variant-numeric:tabular-nums;margin-bottom:6px;
+}
+.stat-value .stat-unit{font-size:1rem;color:var(--ink-soft);margin-left:2px}
+.stat-label{display:block;font-size:.82rem;font-weight:700;color:var(--ink);line-height:1.5}
+.stat-sub{display:block;font-size:.72rem;color:var(--ink-soft);margin-top:4px}
+
+.voice-viewport{
+  position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;
+  box-shadow:var(--shadow);padding:40px 64px;max-width:860px;margin:0 auto;
+  min-height:230px;display:flex;align-items:center;
+}
+.voice-viewport::before{
+  content:"“";position:absolute;top:6px;left:26px;
+  font-family:"Montserrat",serif;font-size:5rem;line-height:1;
+  color:var(--mist);pointer-events:none;
+}
+.voice-track{position:relative;width:100%}
+.voice-card{
+  position:absolute;inset:0;opacity:0;pointer-events:none;
+  display:flex;flex-direction:column;justify-content:center;gap:20px;
+  transform:translateY(10px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.voice-card.active{position:relative;opacity:1;pointer-events:auto;transform:none}
+.voice-text{
+  font-size:1.02rem;line-height:2;color:var(--ink);font-weight:500;
+  border:none;padding:0;margin:0;
+}
+.voice-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.voice-attr{
+  font-size:.8rem;font-weight:700;color:var(--teal-deep);
+  background:var(--sky);padding:5px 14px;border-radius:999px;
+}
+.voice-style{font-size:.78rem;color:var(--ink-soft)}
+.voice-score{
+  margin-left:auto;font-size:.78rem;color:var(--ink-soft);
+  font-family:"Montserrat",sans-serif;white-space:nowrap;
+}
+.voice-score b{font-size:1.05rem;color:var(--sun-deep);font-weight:700}
+
+.voice-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--teal-deep);font-size:1.1rem;line-height:1;
+  cursor:pointer;box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;justify-content:center;transition:.18s;
+}
+.voice-nav:hover{background:var(--sky);border-color:var(--teal);transform:translateY(-50%) scale(1.08)}
+.voice-prev{left:14px}
+.voice-next{right:14px}
+
+.voice-dots{display:flex;justify-content:center;gap:9px;margin-top:22px}
+.voice-dot{
+  width:9px;height:9px;border-radius:50%;border:none;padding:0;cursor:pointer;
+  background:var(--mist);transition:.2s;
+}
+.voice-dot:hover{background:var(--cyan)}
+.voice-dot.active{background:var(--teal);width:26px;border-radius:999px}
+
+.voice-note{
+  font-size:.78rem;color:var(--ink-soft);text-align:center;margin-top:22px;
+  max-width:44em;margin-left:auto;margin-right:auto;line-height:1.8;
+}
+
+@media (max-width:1000px){
+  .voice-stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:680px){
+  .voice-stats{grid-template-columns:repeat(2,1fr);gap:12px}
+  .stat-card{padding:18px 12px}
+  .stat-value{font-size:1.85rem}
+  .stat-label{font-size:.76rem}
+  .voice-viewport{padding:30px 20px 26px;border-radius:18px;min-height:270px}
+  .voice-viewport::before{display:none}
+  .voice-text{font-size:.94rem;line-height:1.95}
+  .voice-nav{display:none}
+  .voice-score{margin-left:0}
+}
+
+/* ===== FAQ：開くときのアニメーション ===== */
+.faq-item[open] summary ~ *{animation:faqIn .3s cubic-bezier(.22,.61,.36,1) both}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.faq-item summary::after{transition:transform .2s ease,content 0s}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(180deg)}
+
+/* =========================================================
+   ▼ 動きを減らす設定にしている人には、演出を止めます
+   ========================================================= */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .cd-live-dot{animation:none}
+  .cd-unit-sec.tick b{animation:none}
+  .tl-item.is-today.pop{animation:none;transform:translateY(-6px) scale(1.03)}
+  .tl-item.pop .tl-today-badge{animation:none;opacity:1}
 }
