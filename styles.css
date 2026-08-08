@@ -210,16 +210,6 @@ strong{color:inherit}
 .reason-copy p{color:rgba(255,255,255,.9);margin-bottom:16px;font-size:.98rem}
 .reason-emph{font-weight:700;color:#fff !important;border-left:4px solid var(--sun);padding-left:16px;margin-top:22px;font-size:1.04rem !important}
 
-/* ===== Podcast ===== */
-.podcast{background:linear-gradient(180deg,#fff,#F4FAFD)}
-.pod-dash{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px;margin-bottom:34px}
-.dash-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow-sm)}
-.dash-label{display:block;font-size:.84rem;font-weight:500;color:var(--ink-soft);margin-bottom:8px}
-.dash-num{font-size:1.05rem;font-weight:700;color:var(--ink)}
-.dash-num strong{font-size:1.9rem;color:var(--teal);font-family:"Montserrat",sans-serif}
-.dash-bar{margin-top:12px;height:9px;border-radius:999px;background:var(--mist);overflow:hidden}
-.dash-bar span{display:block;height:100%;width:0;background:var(--cta-grad);border-radius:999px;transition:width .5s ease}
-
 .pod-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .pod-card{
   background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow-sm);
@@ -231,23 +221,9 @@ strong{color:inherit}
 .pod-no{font-family:"Montserrat",sans-serif;font-weight:700;font-size:.92rem;color:var(--teal);background:var(--sky);padding:4px 12px;border-radius:999px}
 .pod-date{font-size:.8rem;color:var(--ink-soft)}
 .pod-theme{font-size:1.12rem;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:8px}
-.pod-tag{display:inline-block;font-size:.74rem;font-weight:700;color:var(--teal-deep);background:var(--mist);padding:3px 10px;border-radius:999px;margin-bottom:10px}
-.pod-summary{font-size:.86rem;color:var(--ink-soft);margin-bottom:6px}
-.pod-meta{font-size:.8rem;color:var(--ink-soft);margin-bottom:14px}
-.pod-player{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.pod-play{
-  flex:0 0 auto;width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
-  background:var(--cta-grad);color:#fff;font-size:1.05rem;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 16px rgba(19,115,160,.3);transition:transform .15s;
-}
-.pod-play:hover{transform:scale(1.06)}
-.pod-progress{flex:1}
-.pod-progress input{width:100%;accent-color:var(--teal);cursor:pointer}
-.pod-time{font-size:.74rem;color:var(--ink-soft);font-family:"Montserrat",sans-serif;min-width:84px;text-align:right}
+
 .pod-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.speed-group{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
-.speed-btn{border:none;background:#fff;color:var(--ink-soft);font-size:.78rem;font-weight:700;padding:6px 11px;cursor:pointer;transition:.15s}
-.speed-btn.active{background:var(--teal);color:#fff}
+
 .pod-actions{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
 .pod-link{font-size:.78rem;font-weight:700;color:var(--teal-deep);border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:#fff;cursor:pointer;transition:.15s}
 .pod-link:hover{background:var(--sky)}
@@ -257,8 +233,7 @@ strong{color:inherit}
 
 /* ===== Join ===== */
 .join{background:var(--white)}
-.join-flow{margin:0 auto 28px;max-width:1000px;border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
-.join-flow img{width:100%;display:block}
+
 .join-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:920px;margin:0 auto 32px}
 .join-steps-4{grid-template-columns:repeat(4,1fr);max-width:1000px}
 .join-step{
@@ -375,33 +350,8 @@ strong{color:inherit}
 /* ===== Podcast page ===== */
 .site-nav a.active{color:var(--teal)}
 .site-nav a.active::after{width:100%}
-.pod-hero{
-  padding:104px 0 44px;
-  background:radial-gradient(800px 420px at 85% -10%,#DAF0F8,rgba(218,240,248,0) 60%),linear-gradient(180deg,#F4FAFD,#EAF5FB);
-}
-.pod-hero-title{font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:900;color:var(--ink);line-height:1.32;margin-bottom:16px}
-.pod-hero-title .accent{color:var(--teal)}
-.pod-hero-lead{max-width:48em;color:var(--ink-soft);margin-bottom:24px}
-.pod-hero-actions{display:flex;flex-wrap:wrap;gap:12px}
-#refreshBtn{padding:14px 22px}
-.pod-main{padding-top:44px}
+
 .pod-card audio{display:none}
-.dash-rec{background:linear-gradient(135deg,#F0FAFC,#E3F4F9);border-color:var(--cyan)}
-.dash-rec-title{display:block;font-weight:700;color:var(--ink);font-size:1.02rem;line-height:1.5;margin-top:2px}
-
-.pod-state{text-align:center;padding:54px 20px;color:var(--ink-soft)}
-.pod-error{background:#FFF4EC;border:1px solid #F3C9A8;border-radius:14px;color:#9A4B22;font-size:.92rem}
-
-.pod-setup{
-  background:var(--sky);border:1px solid var(--line);border-radius:18px;padding:32px 30px;max-width:760px;margin:0 auto;
-}
-.pod-setup h2{font-size:1.2rem;color:var(--ink);margin-bottom:12px}
-.pod-setup p{font-size:.94rem;color:var(--ink-soft);margin-bottom:14px}
-.setup-steps{margin:0 0 14px 1.2em;display:grid;gap:9px}
-.setup-steps li{font-size:.92rem;color:var(--ink)}
-.setup-steps a{color:var(--teal-deep);text-decoration:underline}
-.pod-setup code{background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:.86em;color:var(--teal-deep)}
-.setup-note{font-size:.84rem !important;color:var(--ink-soft) !important}
 
 .pod-cta-banner{
   background:radial-gradient(700px 380px at 15% 120%,rgba(244,167,66,.2),rgba(244,167,66,0) 60%),var(--deep-grad);
@@ -556,7 +506,6 @@ strong{color:inherit}
 .sem-modal-price{font-size:.8rem;color:var(--ink-soft);text-align:center}
 body.sem-lock{overflow:hidden}
 
-
 /* ===== 下層ページ共通 ===== */
 .page-hero{
   padding:142px 0 54px;
@@ -568,7 +517,6 @@ body.sem-lock{overflow:hidden}
 .page-hero-lead{max-width:48em;color:var(--ink-soft)}
 .page-hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .alt-bg{background:var(--sky-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.note-line{font-size:.82rem;color:var(--ink-soft);margin-top:24px}
 
 /* 2カラム（テキスト＋ビジュアル） */
 .split-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
@@ -630,7 +578,6 @@ body.sem-lock{overflow:hidden}
 .faq-section{padding:36px 0 56px}
 .faq-section .section-title{margin-bottom:22px}
 .faq-item p a{color:var(--teal-deep);font-weight:700;text-decoration:underline}
-
 
 /* ===== コンテンツページ ===== */
 .content-toolbar{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
@@ -703,7 +650,7 @@ body.sem-lock{overflow:hidden}
 .cv-video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000}
 .cv-video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .cv-modal-content{padding:26px 30px 30px;display:flex;flex-direction:column;gap:10px}
-.cv-modal-meta{font-size:.78rem;font-weight:700;color:var(--teal-deep)}
+
 .cv-modal-title{font-size:1.2rem;font-weight:900;color:var(--ink);line-height:1.5}
 .cv-modal-desc{font-size:.9rem;color:var(--ink-soft);line-height:1.8}
 .cv-modal-source{font-size:.8rem;color:var(--ink-soft)}
@@ -714,7 +661,7 @@ body.cv-lock{overflow:hidden}
 @media (max-width:1000px){
   .benefit-grid{grid-template-columns:repeat(3,1fr)}
   .join-steps-4{grid-template-columns:repeat(2,1fr)}
-  .pod-dash{grid-template-columns:1fr 1fr}
+  
   .timeline{grid-template-columns:repeat(4,1fr)}
 }
 @media (max-width:860px){
@@ -738,7 +685,7 @@ body.cv-lock{overflow:hidden}
 @media (max-width:680px){
   .benefit-grid{grid-template-columns:1fr 1fr}
   .pod-list{grid-template-columns:1fr}
-  .pod-dash{grid-template-columns:1fr}
+  
   .problem-list{grid-template-columns:1fr}
   .timeline{grid-template-columns:1fr;gap:10px}
   .tl-item{padding:16px 18px 16px 46px}
@@ -750,7 +697,7 @@ body.cv-lock{overflow:hidden}
   .footer-grid{flex-direction:column}
   .btn{width:100%}
   .hero-actions .btn,.section-cta .btn{width:100%}
-  .speed-group{order:3}
+  
   .pod-actions{margin-left:0;width:100%}
 }
 @media (max-width:420px){
@@ -799,7 +746,6 @@ body.cv-lock{overflow:hidden}
   .tab-group{gap:8px}
   .tab-btn{flex:1 1 auto;font-size:.84rem;padding:10px 14px;text-align:center}
 }
-
 
 /* =========================================================
    ▼▼▼ ここから下は「動的演出」で追加したスタイルです ▼▼▼
