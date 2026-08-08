@@ -100,8 +100,25 @@ strong{color:inherit}
 }
 .hero-inner{
   max-width:var(--maxw);margin:0 auto;padding:0 24px;
-  display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  grid-template-areas:
+    "copy cd"
+    "copy visual";
+  grid-template-rows:auto auto;
+  column-gap:46px;row-gap:0;
+  align-items:center;
 }
+.hero-copy{grid-area:copy}
+.hero-visual{grid-area:visual;align-self:start}
+
+/* 右カラム上部に置くカウントダウン（左右の高さが揃うようにする） */
+.hero-countdown{
+  grid-area:cd;align-self:end;justify-self:stretch;
+  width:100%;margin:0 0 20px;align-items:center;
+}
+.hero-countdown .cd-clock{width:100%;justify-content:center}
+.hero-countdown .cd-unit{flex:1 1 0;min-width:0}
 .hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
 .pill{
   display:inline-flex;align-items:center;gap:6px;
@@ -675,7 +692,16 @@ body.cv-lock{overflow:hidden}
   .site-nav a{padding:14px 24px}
   .site-nav a::after{display:none}
   .nav-toggle{display:flex;margin-left:auto}
-  .hero-inner,.concept-grid,.reason-grid,.host-grid{grid-template-columns:1fr;gap:34px}
+  .concept-grid,.reason-grid,.host-grid{grid-template-columns:1fr;gap:34px}
+  .hero-inner{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "cd"
+      "copy"
+      "visual";
+    row-gap:26px;column-gap:0;
+  }
+  .hero-countdown{margin:0}
   .member-guide{grid-template-columns:1fr;padding:26px}
   .reason-grid .reason-visual{order:2}
   .hero{padding:104px 0 56px}
@@ -853,6 +879,8 @@ body.cv-lock{overflow:hidden}
   .cd-unit i{font-size:.64rem}
   .cd-live{font-size:1.2rem}
   .countdown .cd-when{font-size:.72rem;text-align:center}
+  /* スマホではすぐ下のピル（毎週土曜 朝6:00〜）と重複するので隠す */
+  .hero-countdown .cd-when{display:none}
 }
 
 /* ===== モバイル下部の固定CTA ===== */
@@ -935,11 +963,12 @@ body.cv-lock{overflow:hidden}
   .timeline.has-today{margin-top:0}
   .tl-item.is-today.pop{animation:tlPopInSp .5s cubic-bezier(.34,1.56,.64,1) both}
   @keyframes tlPopInSp{from{transform:scale(.97)}60%{transform:scale(1.03)}to{transform:none}}
-  .tl-item.is-today{padding-right:104px}
-  .tl-today-badge{left:auto;right:10px;top:50%;transform:translateY(-50%);font-size:.7rem;padding:7px 12px}
+  /* 吹き出しはカード上部の余白に置く（本文に被らせない） */
+  .tl-item.is-today{padding-top:44px}
+  .tl-today-badge{left:auto;right:12px;top:11px;transform:none;font-size:.7rem;padding:6px 12px}
   .tl-item.pop .tl-today-badge{animation:tlBadgeInSp .4s cubic-bezier(.34,1.56,.64,1) .18s both}
-  @keyframes tlBadgeInSp{from{opacity:0;transform:translateY(-50%) scale(.7)}
-                         to  {opacity:1;transform:translateY(-50%) scale(1)}}
+  @keyframes tlBadgeInSp{from{opacity:0;transform:scale(.7)}
+                         to  {opacity:1;transform:scale(1)}}
   .tl-today-badge::after{display:none}
 }
 
