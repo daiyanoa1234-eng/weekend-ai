@@ -227,7 +227,21 @@ strong{color:inherit}
 .reason-copy p{color:rgba(255,255,255,.9);margin-bottom:16px;font-size:.98rem}
 .reason-emph{font-weight:700;color:#fff !important;border-left:4px solid var(--sun);padding-left:16px;margin-top:22px;font-size:1.04rem !important}
 
-.pod-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+/* Podcast一覧：アーカイブと同じ「横スライド」表示（.archive-track と揃えています） */
+.pod-list{
+  display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;
+  /* html{scroll-behavior:smooth} が継承されるため、必ず auto で打ち消すこと。
+     理由は .archive-track と同じ（contents.js のコメント参照）。 */
+  scroll-behavior:auto;
+  scroll-snap-type:x proximity;
+  padding:4px 4px 14px;margin:0 -4px;
+  scrollbar-width:thin;scrollbar-color:var(--mist) transparent;
+}
+.pod-list::-webkit-scrollbar{height:8px}
+.pod-list::-webkit-scrollbar-thumb{background:var(--mist);border-radius:999px}
+.pod-list::-webkit-scrollbar-track{background:transparent}
+.pod-list:focus-visible{outline:2px solid var(--teal);outline-offset:4px;border-radius:12px}
+.pod-list .pod-card{flex:0 0 320px;max-width:320px;scroll-snap-align:start}
 .pod-card{
   background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow-sm);
   transition:box-shadow .18s;
@@ -710,8 +724,8 @@ body.cv-lock{overflow:hidden}
 }
 @media (max-width:680px){
   .benefit-grid{grid-template-columns:1fr 1fr}
-  .pod-list{grid-template-columns:1fr}
-  
+  .pod-list .pod-card{flex:0 0 82%;max-width:82%}
+
   .problem-list{grid-template-columns:1fr}
   .timeline{grid-template-columns:1fr;gap:10px}
   .tl-item{padding:16px 18px 16px 46px}
@@ -1086,4 +1100,158 @@ body.cv-lock{overflow:hidden}
   .cd-unit-sec.tick b{animation:none}
   .tl-item.is-today.pop{animation:none;transform:translateY(-6px) scale(1.03)}
   .tl-item.pop .tl-today-badge{animation:none;opacity:1}
+}
+
+/* =========================================================
+   アーカイブ動画（コメキャリメンバー限定）
+   ========================================================= */
+
+/* タブボタン（鍵付き） */
+.tab-btn-locked.active{background:linear-gradient(135deg,#2C5B7A,#16374F);box-shadow:0 8px 18px rgba(16,58,82,.3)}
+
+/* ── 限定であることを大きく示すバナー ── */
+.members-only{
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;
+  margin:0 0 40px;padding:32px 34px;border-radius:22px;
+  background:radial-gradient(700px 320px at 12% 0%,rgba(244,167,66,.18),rgba(244,167,66,0) 62%),var(--deep-grad);
+  color:#fff;box-shadow:0 18px 40px rgba(16,58,82,.28);
+}
+.members-only-ico{
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+  width:64px;height:64px;border-radius:18px;
+  background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.34);color:var(--sun);
+}
+.members-only-label{
+  font-family:"Montserrat",sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.18em;
+  color:var(--sun);margin-bottom:8px;
+}
+.members-only-title{font-size:clamp(1.25rem,2.4vw,1.7rem);font-weight:900;line-height:1.5;margin-bottom:12px;color:#fff}
+.members-only-text{font-size:.96rem;line-height:1.9;color:rgba(255,255,255,.92);margin-bottom:12px}
+.members-only-text strong{color:var(--sun);font-weight:700}
+.members-only-note{
+  font-size:.82rem;line-height:1.8;color:rgba(255,255,255,.72);
+  padding-left:14px;border-left:2px solid rgba(255,255,255,.3);
+}
+.members-only-cta{margin-top:20px}
+.members-only-cta .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.6)}
+.members-only-cta .btn-ghost:hover{background:rgba(255,255,255,.2)}
+.sp-br{display:none}
+
+/* ── アーカイブ一覧 ── */
+/* ── 並び替え・回数レンジのツールバー ── */
+.archive-toolbar{display:flex;flex-direction:column;gap:12px;margin:26px 0 18px}
+.archive-toolbar-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.archive-toolbar-row[hidden]{display:none}
+.range-group{display:flex;flex-wrap:wrap;gap:8px}
+.range-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:.84rem;font-weight:700;color:var(--ink-soft);
+  background:#fff;border:1px solid var(--line);border-radius:999px;
+  padding:8px 16px;cursor:pointer;transition:.15s;
+}
+.range-btn:hover{background:var(--sky);border-color:var(--teal)}
+.range-btn.active{background:var(--cta-grad);color:#fff;border-color:transparent;box-shadow:0 6px 14px rgba(19,115,160,.26)}
+.range-count{
+  font-family:"Montserrat",sans-serif;font-size:.72rem;font-weight:700;
+  background:var(--sky);color:var(--teal-deep);padding:1px 7px;border-radius:999px;
+}
+.range-btn.active .range-count{background:rgba(255,255,255,.24);color:#fff}
+
+/* ── 横スライド式の一覧 ── */
+.archive-slider{position:relative}
+.archive-track{
+  display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;
+  /* html{scroll-behavior:smooth} が継承されるので、必ず auto で打ち消すこと。
+     smooth のままだと scroll-snap と干渉して、矢印ボタンがまったく効きません。
+     なめらかな動きは contents.js の arcAnimate() が担当しています。 */
+  scroll-behavior:auto;
+  scroll-snap-type:x proximity;
+  padding:4px 4px 14px;margin:0 -4px;
+  scrollbar-width:thin;scrollbar-color:var(--mist) transparent;
+}
+.archive-track::-webkit-scrollbar{height:8px}
+.archive-track::-webkit-scrollbar-thumb{background:var(--mist);border-radius:999px}
+.archive-track::-webkit-scrollbar-track{background:transparent}
+.archive-track:focus-visible{outline:2px solid var(--teal);outline-offset:4px;border-radius:12px}
+.archive-track .archive-card{
+  flex:0 0 300px;max-width:300px;scroll-snap-align:start;
+}
+.arc-nav{
+  position:absolute;top:44%;transform:translateY(-50%);z-index:2;
+  width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--teal-deep);font-size:1.2rem;line-height:1;cursor:pointer;
+  box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;transition:.18s;
+}
+.arc-nav:hover:not(:disabled){background:var(--sky);border-color:var(--teal);transform:translateY(-50%) scale(1.08)}
+.arc-nav:disabled{opacity:.3;cursor:default}
+.arc-nav[hidden]{display:none}
+.arc-prev{left:-14px}
+.arc-next{right:-14px}
+.archive-hint{
+  font-size:.76rem;color:var(--ink-soft);text-align:center;margin-top:6px;
+}
+.archive-hint[hidden]{display:none}
+.archive-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.archive-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--teal)}
+.archive-card-main{
+  display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  width:100%;padding:22px 24px 20px;border:0;background:none;cursor:pointer;text-align:left;
+}
+.archive-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.7rem;font-weight:700;color:#fff;letter-spacing:.03em;
+  background:var(--deep-grad);padding:4px 12px;border-radius:999px;
+}
+.archive-lock{font-size:.72rem}
+.archive-no{
+  font-family:"Montserrat",sans-serif;font-weight:700;font-size:.92rem;color:var(--teal);
+  background:var(--sky);padding:3px 12px;border-radius:999px;
+}
+.archive-date{font-size:.76rem;color:var(--ink-soft);font-family:"Montserrat",sans-serif}
+.archive-title{font-size:1.02rem;font-weight:700;color:var(--ink);line-height:1.55}
+.archive-play{
+  margin-top:8px;font-size:.86rem;font-weight:700;color:var(--teal-deep);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.archive-card:hover .archive-play{text-decoration:underline}
+
+.archive-note{
+  font-size:.8rem;color:var(--ink-soft);line-height:1.9;margin-top:26px;
+  padding:16px 20px;background:var(--sky-2);border:1px dashed var(--line);border-radius:14px;
+}
+
+/* ポップアップ内のリンク */
+.cv-modal-source a{color:var(--teal-deep);font-weight:700;text-decoration:underline}
+.cv-modal-meta{font-size:.78rem;font-weight:700;color:var(--teal-deep)}
+
+@media (max-width:860px){
+  .members-only{grid-template-columns:1fr;gap:16px;padding:26px 22px;border-radius:18px}
+  .members-only-ico{width:54px;height:54px;border-radius:15px}
+}
+@media (max-width:680px){
+  .archive-track .archive-card{flex:0 0 82%;max-width:82%}
+  .arc-nav{display:none}
+  .archive-toolbar-row{gap:8px}
+  .range-btn{font-size:.78rem;padding:7px 13px}
+  .sort-btn{font-size:.78rem;padding:7px 13px}
+  .members-only-title{font-size:1.15rem}
+  .members-only-text{font-size:.9rem}
+  .members-only-cta .btn{width:100%}
+  .sp-br{display:inline}
+  .tab-btn{font-size:.8rem;padding:10px 12px}
+}
+
+/* 権限がないときの案内（アーカイブのポップアップ内） */
+.cv-fallback{
+  margin-top:6px;padding:16px 18px;border-radius:14px;
+  background:#FFF6EC;border:1px solid #F3D5B0;
+}
+.cv-fallback-title{font-size:.88rem;font-weight:700;color:#9A5A22;margin-bottom:6px}
+.cv-fallback-body{font-size:.84rem;line-height:1.85;color:#7C5330;margin-bottom:10px}
+.cv-fallback-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.84rem;font-weight:700;color:var(--teal-deep);text-decoration:underline;
 }
