@@ -1,7 +1,7 @@
 /* =========================================================
    週末のAI整え習慣 — コンテンツページ
-   Podcast（stand.fm）と、Googleドライブの学習資料を
-   1つのページにまとめて表示します。
+   Podcast（stand.fm）／学習資料／アーカイブ動画を
+   1つのページにタブでまとめて表示します。
 
    ▼ Podcastを追加するとき
    下の EPISODES に1行足すだけです（stand.fmのURLを貼るだけでOK）。
@@ -18,18 +18,8 @@
     });
   };
 
-  /* ---------- ナビ（モバイル） ---------- */
-  var nav = document.getElementById('siteNav');
-  var toggle = document.getElementById('navToggle');
-  if (toggle && nav) {
-    toggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    nav.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') nav.classList.remove('open');
-    });
-  }
+  /* ヘッダー・モバイルナビの処理は common.js に集約しました。
+     （以前はこのファイルにも同じコードがありました） */
 
   /* =====================================================
      Podcast（stand.fm 限定公開エピソード）
@@ -54,9 +44,11 @@
 
   var STORE_KEY = 'wa_podcast_watched_sfm_v1';
   var ORDER_KEY = 'wa_podcast_order_v1';
+  var POD_RANGE_KEY = 'wa_podcast_range_v1';
   var currentOrder = (function () {
     try { return localStorage.getItem(ORDER_KEY) || POD_ORDER; } catch (e) { return POD_ORDER; }
   })();
+  var podRange = null;   // 例：{ from: 1, to: 10 }（アーカイブ動画タブと同じ仕組み）
 
   var podList = document.getElementById('podList');
 
@@ -82,14 +74,39 @@
 
   function renderPodcast() {
     if (!podList) return;
+
+    // 並び替えボタンの見た目を同期
+    document.querySelectorAll('[data-order]').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.order === currentOrder);
+    });
+    document.querySelectorAll('#podRanges .range-btn').forEach(function (b) {
+      var on = podRange
+        ? (parseInt(b.dataset.from, 10) === podRange.from)
+        : (b.dataset.from === 'all');
+      b.classList.toggle('active', on);
+    });
+
     podList.innerHTML = '';
-    var ordered = EPISODES.slice().sort(function (a, b) {
+    var ordered = EPISODES.slice();
+    if (podRange) {
+      ordered = ordered.filter(function (e) { return e.no >= podRange.from && e.no <= podRange.to; });
+    }
+    ordered.sort(function (a, b) {
       return currentOrder === 'oldest' ? a.no - b.no : b.no - a.no;
     });
+
+    var podCount = document.getElementById('podCount');
+    if (podCount) {
+      podCount.textContent = podRange
+        ? ('第' + podRange.from + '〜' + podRange.to + '回／' + ordered.length + '本')
+        : ('全' + ordered.length + '回');
+    }
+
     ordered.forEach(function (ep) {
       var card = document.createElement('article');
       card.className = 'pod-card stand';
       card.id = 'card-' + ep.id;
+      card.setAttribute('role', 'listitem');
 
       card.innerHTML =
         '<div class="pod-head">' +
@@ -125,23 +142,87 @@
       });
       sync();
     });
+
+    podList.scrollLeft = 0;
+    if (podList._updateNav) podList._updateNav();
   }
 
+  /* [data-order] だけを見る（[data-arc-order] を持つアーカイブ動画タブの
+     並び替えボタンとは class="sort-btn" を共有しているため、属性で区別しないと
+     お互いのボタンを押したときにもう片方の表示順まで書き換わってしまいます） */
   function setupPodcastSort() {
-    var btns = document.querySelectorAll('.sort-btn');
+    var btns = document.querySelectorAll('[data-order]');
     if (!btns.length) return;
-    function updateUI() {
-      btns.forEach(function (b) { b.classList.toggle('active', b.dataset.order === currentOrder); });
-    }
     btns.forEach(function (b) {
       b.addEventListener('click', function () {
         currentOrder = b.dataset.order;
         try { localStorage.setItem(ORDER_KEY, currentOrder); } catch (e) {}
-        updateUI();
         renderPodcast();
       });
     });
-    updateUI();
+  }
+
+  /* 10回ごとのまとまりを自動で作る（アーカイブ動画タブと同じロジック） */
+  function podcastRanges() {
+    if (!EPISODES.length) return [];
+    var max = Math.max.apply(null, EPISODES.map(function (e) { return e.no; }));
+    var groups = [];
+    for (var from = 1; from <= max; from += 10) {
+      var to = from + 9;
+      var count = EPISODES.filter(function (e) { return e.no >= from && e.no <= to; }).length;
+      if (count) groups.push({ from: from, to: to, count: count });
+    }
+    return groups.reverse();   // 新しいまとまりを左に
+  }
+
+  function renderPodcastRangeButtons() {
+    var wrap = document.getElementById('podRanges');
+    if (!wrap) return;
+    var groups = podcastRanges();
+    var row = wrap.closest('.archive-toolbar-row');
+
+    if (groups.length <= 1) {
+      if (row) row.hidden = true;
+      podRange = null;
+      wrap.innerHTML = '';
+      return;
+    }
+    if (row) row.hidden = false;
+
+    wrap.innerHTML =
+      '<button type="button" class="range-btn" data-from="all">すべて<span class="range-count">' + EPISODES.length + '</span></button>' +
+      groups.map(function (g) {
+        return '<button type="button" class="range-btn" data-from="' + g.from + '" data-to="' + g.to + '">' +
+               '第' + g.from + '〜' + g.to + '回<span class="range-count">' + g.count + '</span></button>';
+      }).join('');
+  }
+
+  /* 起動時に1回だけ呼ぶ：初期状態の復元＋クリックの登録（委譲）を行う。
+     ボタンをクリックするたびに buildする方式だと、その都度リスナーが
+     二重・三重に積み重なってしまうため、登録は最初の1回だけにしています。 */
+  function initPodcastRanges() {
+    var wrap = document.getElementById('podRanges');
+    if (!wrap) return;
+
+    var groups = podcastRanges();
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(POD_RANGE_KEY)); } catch (e) {}
+    if (saved && saved.from) {
+      podRange = groups.filter(function (g) { return g.from === saved.from; })[0] || null;
+    } else {
+      podRange = null;
+    }
+
+    renderPodcastRangeButtons();
+
+    wrap.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.range-btn') : null;
+      if (!b) return;
+      if (b.dataset.from === 'all') podRange = null;
+      else podRange = { from: parseInt(b.dataset.from, 10), to: parseInt(b.dataset.to, 10) };
+      try { localStorage.setItem(POD_RANGE_KEY, JSON.stringify(podRange)); } catch (err) {}
+      renderPodcast();
+    });
   }
 
   /* =====================================================
@@ -303,6 +384,283 @@
     if (e.key === 'Escape') closeVideoModal();
   });
 
+
+  /* =====================================================
+     アーカイブ動画（コメキャリメンバー限定）
+     ─────────────────────────────────────────────────────
+     ▼ 新しい回を追加するとき
+       1. Googleドライブの「アーカイブ」フォルダに動画をアップロード
+          https://drive.google.com/drive/folders/12YHtKFODi75v_W08xFACzm97DjFIUCjg
+       2. その動画の共有リンクからIDだけを取り出す
+          例）https://drive.google.com/file/d/★ここ★/view?usp=drivesdk
+       3. 下の ARCHIVES の先頭に1件追記する
+
+     ▼ 権限について（重要）
+       ・視聴できる人の管理は、このファイルではなく
+         Googleドライブのフォルダ共有設定（Googleグループ）で行います。
+       ・サイト側は一覧を出しているだけなので、
+         権限のない人がリンクを踏むとGoogle側で止まります。
+       ・フォルダ全体をグループに共有しておけば、
+         中の動画は個別設定なしで自動的に同じ権限になります。
+     ===================================================== */
+  var ARCHIVES = [
+    { no: 11, date: '2026-08-08', driveId: '19JlRjv3-MawZbyXcQKbzztXr_WZSiApV',
+      title: 'AI時代のファイル管理術！命名規則とアクセス権限の設計ポイント' },
+    { no: 10, date: '2026-08-01', driveId: '19pImfSYIR6lS3MITxcURnt5y2YpuDmfR',
+      title: 'Google Lyriaでテーマ曲解禁！音楽生成AIの衝撃と実用性' },
+    { no: 9,  date: '2026-07-25', driveId: '1Qar6VNKR01-1B3fuMO3RDEc_v4ik1xjQ',
+      title: 'なぜ日本のDXは遅れる？厚労省セキュリティ研修と現場のリテラシー' },
+    { no: 8,  date: '2026-07-18', driveId: '10p_53AOnfFlEdsoOzIzQpdwUQ7s8ZX_U',
+      title: 'Gemini Notebook改名とGoogle Vids動画化' },
+    { no: 7,  date: '2026-07-11', driveId: '11N2Fx1cpbihkURhaDmZtpiuSIxTtNyaR',
+      title: 'GPT-5.6解禁と音声即時通訳！デジタル庁データから見る医療DX' },
+    { no: 6,  date: '2026-07-04', driveId: '1LRUw9WD1gLvfxC4eZfxiTfdseK_Y0R7M',
+      title: 'Claude Fable 5再開！迫る従量課金化と最上位AIの活用法' },
+    { no: 5,  date: '2026-06-27', driveId: '1ulSmmmUHh9w_ePk1Wz3hjx5ALKsOBO6r',
+      title: 'どこまで入れて大丈夫？個人情報チェッカーで学ぶ医療AIリスク' },
+    { no: 4,  date: '2026-06-20', driveId: '1mBV8rtoHJ_aHujcA51PmxOz0nqCUICO2',
+      title: 'Claude最上位モデルが突然停止？性能進化とAI停止リスクに備える' },
+    { no: 3,  date: '2026-06-13', driveId: '1f3e5FVVSA1ow9HzpkXFDwfN7hvxPTpAb',
+      title: 'Claude最強モデル登場！Fable 5の実力とスクショアプリ開発' },
+    { no: 2,  date: '2026-06-06', driveId: '1yjHgBmJizI6mUPF8T7Gp-rTBhz-LZB8a',
+      title: 'AIに代替されるPT・選ばれるPT〜臨床とテクノロジーの境界線〜' },
+    { no: 1,  date: '2026-05-30', driveId: '1PaWhstQ-WKuUytCLo812HBUcHgo-OEhM',
+      title: 'AI相談の落とし穴〜安倍全監督の事例と医療現場のリスク〜' }
+  ];
+
+  function driveEmbedUrl(id) { return 'https://drive.google.com/file/d/' + id + '/preview'; }
+  function driveViewUrl(id)  { return 'https://drive.google.com/file/d/' + id + '/view'; }
+
+  /* ---------- 並び替え・回数レンジ・横スライド ---------- */
+  var ARC_ORDER_KEY = 'wa_archive_order_v1';
+  var ARC_RANGE_KEY = 'wa_archive_range_v1';
+  var arcOrder = (function () {
+    try { return localStorage.getItem(ARC_ORDER_KEY) || 'newest'; } catch (e) { return 'newest'; }
+  })();
+  var arcRange = null;   // 例：{ from: 1, to: 10 }
+
+  /* 10回ごとのまとまりを自動で作る（第1〜10回／第11〜20回…） */
+  function archiveRanges() {
+    if (!ARCHIVES.length) return [];
+    var max = Math.max.apply(null, ARCHIVES.map(function (a) { return a.no; }));
+    var groups = [];
+    for (var from = 1; from <= max; from += 10) {
+      var to = from + 9;
+      var count = ARCHIVES.filter(function (a) { return a.no >= from && a.no <= to; }).length;
+      if (count) groups.push({ from: from, to: to, count: count });
+    }
+    return groups.reverse();   // 新しいまとまりを左に
+  }
+
+  function renderArchiveRangeButtons() {
+    var wrap = document.getElementById('archiveRanges');
+    if (!wrap) return;
+    var groups = archiveRanges();
+    var row = wrap.closest('.archive-toolbar-row');
+
+    // まとまりが1つだけなら、絞り込みは出さない（11回未満のとき）
+    if (groups.length <= 1) {
+      if (row) row.hidden = true;
+      arcRange = null;
+      wrap.innerHTML = '';
+      return;
+    }
+    if (row) row.hidden = false;
+
+    wrap.innerHTML =
+      '<button type="button" class="range-btn" data-from="all">すべて<span class="range-count">' + ARCHIVES.length + '</span></button>' +
+      groups.map(function (g) {
+        return '<button type="button" class="range-btn" data-from="' + g.from + '" data-to="' + g.to + '">' +
+               '第' + g.from + '〜' + g.to + '回<span class="range-count">' + g.count + '</span></button>';
+      }).join('');
+  }
+
+  /* 起動時に1回だけ呼ぶ：初期状態の復元＋クリックの登録（委譲）を行う。
+     以前は絞り込みボタンをクリックするたびにこの関数ごと呼び直しており、
+     そのたびに click リスナーが新しく積み重なっていました（＝クリックのたびに
+     処理が二重・三重に走る不具合）。登録は最初の1回だけにしています。 */
+  function initArchiveRanges() {
+    var wrap = document.getElementById('archiveRanges');
+    if (!wrap) return;
+
+    var groups = archiveRanges();
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(ARC_RANGE_KEY)); } catch (e) {}
+    if (saved && saved.from) {
+      arcRange = groups.filter(function (g) { return g.from === saved.from; })[0] || null;
+    } else {
+      arcRange = null;
+    }
+
+    renderArchiveRangeButtons();
+
+    wrap.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.range-btn') : null;
+      if (!b) return;
+      if (b.dataset.from === 'all') arcRange = null;
+      else arcRange = { from: parseInt(b.dataset.from, 10), to: parseInt(b.dataset.to, 10) };
+      try { localStorage.setItem(ARC_RANGE_KEY, JSON.stringify(arcRange)); } catch (err) {}
+      renderArchive();
+    });
+  }
+
+  function setupArchiveSort() {
+    var btns = document.querySelectorAll('[data-arc-order]');
+    if (!btns.length) return;
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        arcOrder = b.dataset.arcOrder;
+        try { localStorage.setItem(ARC_ORDER_KEY, arcOrder); } catch (e) {}
+        renderArchive();
+      });
+    });
+  }
+
+  /* =====================================================
+     横スライドの一覧（アーカイブ動画／Podcast共通）
+     ・左右の矢印ボタン、トラックパッド／マウスホイールの縦スクロール、
+       指でのスワイプ（一覧自体が overflow-x:auto のため、ブラウザ標準の
+       タッチスクロールがそのまま使えます）に対応しています。
+     ===================================================== */
+  function setupSlider(opts) {
+    var track = document.getElementById(opts.trackId);
+    var prev = document.getElementById(opts.prevId);
+    var next = document.getElementById(opts.nextId);
+    if (!track || !prev || !next) return;
+
+    function step() {
+      var card = track.querySelector(opts.cardSelector);
+      return card ? card.getBoundingClientRect().width + 18 : 320;
+    }
+
+    /* なぜ scrollBy や scroll-behavior:smooth を使わないか
+       ・CSSの scroll-behavior は html から継承されるため、トラック要素にも
+         smooth が効いてしまい、scroll-snap と組み合わさるとスクロールが
+         打ち消されて矢印がまったく動かなくなります（実機で確認済み）。
+       ・requestAnimationFrame はタブが描画されていないと止まるため、
+         「動作中フラグ」方式にすると二度と動かなくなることがあります。
+       そこで setInterval で scrollLeft を直接動かし、最後は必ず目的地に
+       着地させる形にしています。 */
+    var timer = null;
+    function animate(dx) {
+      var max = track.scrollWidth - track.clientWidth;
+      var target = Math.max(0, Math.min(track.scrollLeft + dx, max));
+      if (timer) { clearInterval(timer); timer = null; }
+
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) { track.scrollLeft = target; return; }
+
+      var from = track.scrollLeft, t0 = Date.now(), dur = 320;
+      timer = setInterval(function () {
+        var p = Math.min((Date.now() - t0) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        track.scrollLeft = from + (target - from) * eased;
+        if (p >= 1) {
+          clearInterval(timer); timer = null;
+          track.scrollLeft = target;   // 端数を残さず着地させる
+        }
+      }, 16);
+    }
+
+    prev.addEventListener('click', function () { animate(-step()); });
+    next.addEventListener('click', function () { animate(step()); });
+
+    // トラックパッド／マウスホイールの縦スクロールを横送りに変換
+    track.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;   // すでに横方向の操作はそのまま任せる
+      var max = track.scrollWidth - track.clientWidth;
+      if (max <= 0) return;
+      e.preventDefault();
+      track.scrollLeft = Math.max(0, Math.min(track.scrollLeft + e.deltaY, max));
+    }, { passive: false });
+
+    function updateNav() {
+      var over = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 4;
+      next.disabled = track.scrollLeft >= over - 4;
+      var hint = opts.hintId && document.getElementById(opts.hintId);
+      if (hint) hint.hidden = over <= 4;      // 全部見えているときは案内を隠す
+      prev.hidden = next.hidden = over <= 4;
+    }
+    track.addEventListener('scroll', updateNav, { passive: true });
+    window.addEventListener('resize', updateNav);
+    track._updateNav = updateNav;
+    updateNav();
+  }
+
+  function renderArchive() {
+    var grid = document.getElementById('archiveGrid');
+    if (!grid) return;
+
+    // 並び替えボタンの見た目を同期
+    document.querySelectorAll('[data-arc-order]').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.arcOrder === arcOrder);
+    });
+    document.querySelectorAll('#archiveRanges .range-btn').forEach(function (b) {
+      var on = arcRange
+        ? (parseInt(b.dataset.from, 10) === arcRange.from)
+        : (b.dataset.from === 'all');
+      b.classList.toggle('active', on);
+    });
+
+    var list = ARCHIVES.slice();
+    if (arcRange) {
+      list = list.filter(function (a) { return a.no >= arcRange.from && a.no <= arcRange.to; });
+    }
+    list.sort(function (a, b) { return arcOrder === 'oldest' ? a.no - b.no : b.no - a.no; });
+
+    var countEl = document.getElementById('archiveCount');
+    if (countEl) {
+      countEl.textContent = arcRange
+        ? ('第' + arcRange.from + '〜' + arcRange.to + '回／' + list.length + '本')
+        : ('全' + list.length + '回');
+    }
+
+    grid.innerHTML = '';
+    list.forEach(function (a) {
+      var card = document.createElement('article');
+      card.className = 'archive-card';
+      card.setAttribute('role', 'listitem');
+      card.innerHTML =
+        '<button type="button" class="archive-card-main" aria-label="第' + a.no + '回の録画を再生">' +
+          '<span class="archive-badge"><span class="archive-lock" aria-hidden="true">\uD83D\uDD12</span>メンバー限定</span>' +
+          '<span class="archive-no">第' + a.no + '回</span>' +
+          '<span class="archive-date">' + formatDate(a.date) + '</span>' +
+          '<span class="archive-title">' + esc(a.title) + '</span>' +
+          '<span class="archive-play">\u25B6 録画を見る</span>' +
+        '</button>';
+      card.querySelector('.archive-card-main')
+          .addEventListener('click', function () { openArchiveModal(a); });
+      grid.appendChild(card);
+    });
+
+    grid.scrollLeft = 0;
+    if (grid._updateNav) grid._updateNav();
+  }
+
+  function openArchiveModal(a) {
+    if (!cvModal || !cvModalBody) return;
+    cvModalBody.innerHTML =
+      '<div class="cv-video-wrap">' +
+        '<iframe src="' + esc(driveEmbedUrl(a.driveId)) + '" title="第' + a.no + '回 録画" ' +
+        'allow="autoplay; encrypted-media; fullscreen" allowfullscreen loading="lazy"></iframe>' +
+      '</div>' +
+      '<div class="cv-modal-content">' +
+        '<p class="cv-modal-meta">第' + a.no + '回　' + formatDate(a.date) + '　\uD83D\uDD12 コメキャリメンバー限定</p>' +
+        '<h3 class="cv-modal-title">' + esc(a.title) + '</h3>' +
+        '<div class="cv-fallback">' +
+          '<p class="cv-fallback-title">\uD83D\uDD12 映像が表示されない場合</p>' +
+          '<p class="cv-fallback-body">視聴権限のあるGoogleアカウントでログインしているかご確認ください。' +
+            '別のアカウントでログイン中だと、再生画面が黒いままになることがあります。' +
+            '下のリンクからGoogleドライブで直接開くと、権限の状態がはっきり分かります。</p>' +
+          '<a class="cv-fallback-link" href="' + esc(driveViewUrl(a.driveId)) + '" target="_blank" rel="noopener">Googleドライブで開く \u2197</a>' +
+        '</div>' +
+      '</div>';
+    cvModal.classList.add('open');
+    cvModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('cv-lock');
+  }
+
   function renderLibrary() {
     if (!grid) return;
 
@@ -365,8 +723,18 @@
     });
   }
 
+  initPodcastRanges();
   setupPodcastSort();
+  setupSlider({ trackId: 'podList', prevId: 'podPrev', nextId: 'podNext', cardSelector: '.pod-card', hintId: 'podHint' });
   renderPodcast();
+
   buildFilter();
+  renderLibrary();
+
+  initArchiveRanges();
+  setupArchiveSort();
+  setupSlider({ trackId: 'archiveGrid', prevId: 'arcPrev', nextId: 'arcNext', cardSelector: '.archive-card', hintId: 'archiveHint' });
+  renderArchive();
+})();
   renderLibrary();
 })();
