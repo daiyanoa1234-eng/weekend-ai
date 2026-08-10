@@ -736,5 +736,3 @@
   setupSlider({ trackId: 'archiveGrid', prevId: 'arcPrev', nextId: 'arcNext', cardSelector: '.archive-card', hintId: 'archiveHint' });
   renderArchive();
 })();
-  renderLibrary();
-})();
