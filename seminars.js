@@ -43,24 +43,8 @@
   ];
   /* ===================================================== */
 
-  /* ---------- Header: mobile nav ---------- */
-  var nav = document.getElementById('siteNav');
-  var toggle = document.getElementById('navToggle');
-  if (toggle && nav) {
-    toggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    nav.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') nav.classList.remove('open');
-    });
-  }
-  var header = document.getElementById('siteHeader');
-  if (header) {
-    window.addEventListener('scroll', function () {
-      header.classList.toggle('scrolled', window.scrollY > 8);
-    });
-  }
+  /* ヘッダー・モバイルナビの処理は common.js に集約しました。
+     （以前はこのファイルにも同じコードがありました） */
 
   function escapeHtml(s) {
     return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
@@ -71,6 +55,47 @@
   function isPast(dateStr) {
     var d = new Date(dateStr + 'T23:59:59');
     return d.getTime() < Date.now();
+  }
+
+  /* ---------- 並び替え・開催状況の絞り込み ---------- */
+  var ORDER_KEY = 'wa_seminars_order_v1';
+  var STATUS_KEY = 'wa_seminars_status_v1';
+  var semOrder = (function () {
+    try { return localStorage.getItem(ORDER_KEY) || 'newest'; } catch (e) { return 'newest'; }
+  })();
+  var semStatus = (function () {
+    try { return localStorage.getItem(STATUS_KEY) || 'all'; } catch (e) { return 'all'; }
+  })();
+
+  /* 起動時に1回だけ呼ぶ：並び替えボタン・開催状況の絞り込みボタンを組み立てて、
+     クリックの登録も1回だけ行う（アーカイブ動画タブ・Podcastタブと同じ考え方）。 */
+  function initSemToolbar() {
+    document.querySelectorAll('[data-sem-order]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        semOrder = b.dataset.semOrder;
+        try { localStorage.setItem(ORDER_KEY, semOrder); } catch (e) {}
+        render();
+      });
+    });
+
+    var statusWrap = document.getElementById('semStatusFilter');
+    if (!statusWrap) return;
+
+    var upcomingCount = SEMINARS.filter(function (s) { return !isPast(s.date); }).length;
+    var pastCount = SEMINARS.filter(function (s) { return isPast(s.date); }).length;
+
+    statusWrap.innerHTML =
+      '<button type="button" class="range-btn" data-sem-status="all">すべて<span class="range-count">' + SEMINARS.length + '</span></button>' +
+      '<button type="button" class="range-btn" data-sem-status="upcoming">開催予定<span class="range-count">' + upcomingCount + '</span></button>' +
+      '<button type="button" class="range-btn" data-sem-status="past">開催終了<span class="range-count">' + pastCount + '</span></button>';
+
+    statusWrap.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('[data-sem-status]') : null;
+      if (!b) return;
+      semStatus = b.dataset.semStatus;
+      try { localStorage.setItem(STATUS_KEY, semStatus); } catch (err) {}
+      render();
+    });
   }
 
   /* ---------- refs ---------- */
@@ -132,11 +157,33 @@
   /* ---------- render cards ---------- */
   function render() {
     if (!grid) return;
-    var ordered = SEMINARS.slice().sort(function (a, b) {
-      return new Date(a.date) - new Date(b.date);
+
+    // 並び替え・絞り込みボタンの見た目を同期
+    document.querySelectorAll('[data-sem-order]').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.semOrder === semOrder);
+    });
+    document.querySelectorAll('#semStatusFilter [data-sem-status]').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.semStatus === semStatus);
     });
 
+    var ordered = SEMINARS.slice();
+    if (semStatus === 'upcoming') ordered = ordered.filter(function (s) { return !isPast(s.date); });
+    else if (semStatus === 'past') ordered = ordered.filter(function (s) { return isPast(s.date); });
+
+    ordered.sort(function (a, b) {
+      // 開催予定（0）を常に開催終了（1）より先＝左に表示する
+      var aPast = isPast(a.date) ? 1 : 0;
+      var bPast = isPast(b.date) ? 1 : 0;
+      if (aPast !== bPast) return aPast - bPast;
+      var diff = new Date(a.date) - new Date(b.date);
+      return semOrder === 'oldest' ? diff : -diff;
+    });
+
+    var countEl = document.getElementById('semCount');
+    if (countEl) countEl.textContent = ordered.length ? ('全' + ordered.length + '件') : '';
+
     if (!ordered.length) {
+      grid.innerHTML = '';
       if (empty) empty.hidden = false;
       return;
     }
@@ -173,5 +220,6 @@
     });
   }
 
+  initSemToolbar();
   render();
 })();
