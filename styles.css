@@ -1218,6 +1218,20 @@ body.cv-lock{overflow:hidden}
 }
 .archive-card:hover .archive-play{text-decoration:underline}
 
+/* アンケート導線（Podcast・アーカイブ動画タブ 共通） */
+.tab-survey-cta{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  margin:20px 0 0;padding:16px 20px;border-radius:14px;
+  background:var(--sky-2);border:1px dashed var(--line);
+}
+.tab-survey-cta-text{font-size:.86rem;color:var(--ink-soft);margin:0}
+.tab-survey-cta-text strong{color:var(--ink)}
+.tab-survey-cta .btn{flex:0 0 auto}
+@media (max-width:680px){
+  .tab-survey-cta{flex-direction:column;align-items:stretch;text-align:center}
+  .tab-survey-cta .btn{width:100%}
+}
+
 .archive-note{
   font-size:.8rem;color:var(--ink-soft);line-height:1.9;margin-top:26px;
   padding:16px 20px;background:var(--sky-2);border:1px dashed var(--line);border-radius:14px;
