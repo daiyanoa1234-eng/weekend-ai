@@ -21,9 +21,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=20260811a">
 </head>
 <body>
+
+<!-- モバイル下部の固定CTA（860px以下で表示） -->
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-info">
+    <span class="sticky-title">毎週土曜 朝6:00〜／参加無料</span>
+    <span class="sticky-sub" data-countdown="compact"></span>
+  </span>
+  <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="seminars-sticky" class="btn btn-cta">申し込む</a>
+</div>
+
 
 <!-- ===== Header ===== -->
 <header class="site-header scrolled" id="siteHeader">
@@ -55,7 +65,7 @@
       <a href="contents.html">コンテンツ</a>
       <a href="faq.html">FAQ</a>
     </nav>
-    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta header-cta">無料で参加を申し込む</a>
+    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="seminars-header" target="_blank" rel="noopener" class="btn btn-cta header-cta">無料で参加を申し込む</a>
     <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -65,7 +75,7 @@
 <!-- ===== Page Hero（背景に画像を敷き、メッセージを重ねる） ===== -->
 <section class="sem-hero">
   <div class="sem-hero-media">
-    <img src="assets/seminar-hero.jpg" alt="夜にひとりでAIの疑問を抱える様子から、セミナーで学びを深める様子へとつながるイメージ" width="1600" height="900" loading="eager">
+    <img src="assets/seminar-hero.jpg" alt="夜にひとりでAIの疑問を抱える様子から、セミナーで学びを深める様子へとつながるイメージ" width="1600" height="900" fetchpriority="high" decoding="async">
   </div>
 
   <div class="container sem-hero-inner">
@@ -112,8 +122,22 @@
 <section class="section sem-main" id="list">
   <div class="container">
     <p class="eyebrow">SCHEDULE</p>
-    <h2 class="section-title">開催セミナー</h2>
-    <p class="section-lead">開催が決まっている回と、これまでに開催した回をまとめています。</p>
+    <h2 class="section-title">開催セミナー<span class="content-count" id="semCount"></span></h2>
+    <p class="section-lead">開催が決まっている回と、これまでに開催した回をまとめています。開催が終了した回は、開催予定の回より後ろに表示されます。</p>
+
+    <div class="archive-toolbar">
+      <div class="archive-toolbar-row">
+        <span class="pod-toolbar-label">並び替え</span>
+        <div class="sort-group">
+          <button type="button" class="sort-btn" data-sem-order="newest">新しい順（降順）</button>
+          <button type="button" class="sort-btn" data-sem-order="oldest">古い順（昇順）</button>
+        </div>
+      </div>
+      <div class="archive-toolbar-row">
+        <span class="pod-toolbar-label">開催状況</span>
+        <div class="range-group" id="semStatusFilter"></div>
+      </div>
+    </div>
 
     <div class="sem-grid" id="semGrid"></div>
     <p class="sem-empty" id="semEmpty" hidden>現在ご案内できるセミナーはありません。次回の開催が決まり次第、こちらに掲載します。</p>
@@ -126,7 +150,7 @@
   <div class="container">
     <h2>問いは、朝の30分から生まれます。</h2>
     <p>セミナーのテーマは、土曜朝の朝活で交わされる会話からつくられています。まずは朝活に参加して、次のテーマを一緒に決めませんか。</p>
-    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
+    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="seminars-seminars" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
   </div>
 </section>
 
@@ -161,6 +185,8 @@
   </div>
 </div>
 
-<script src="seminars.js"></script>
+<script src="config.js?v=20260811a"></script>
+<script src="common.js?v=20260811a"></script>
+<script src="seminars.js?v=20260811a"></script>
 </body>
 </html>
