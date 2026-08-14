@@ -37,7 +37,8 @@
     { url: 'https://stand.fm/episodes/6a5aa5063f95b14bbd46428f', no: 8, theme: 'Gemini Notebook改名とGoogle Vids動画化', date: '7/18' },
     { url: 'https://stand.fm/episodes/6a63df4622340506b937e4bb', no: 9, theme: 'なぜ日本のDXは遅れる？厚労省セキュリティ研修と現場のリテラシー', date: '7/25' },
     { url: 'https://stand.fm/episodes/6a6d2976cc75729749e74c47', no: 10, theme: 'Google Lyriaでテーマ曲解禁！音楽生成AIの衝撃と実用性', date: '8/1' },
-    { url: 'https://stand.fm/episodes/6a7655c7cd3fe770e9e785fb', no: 11, theme: 'AI時代のファイル管理術！命名規則とアクセス権限の設計ポイント', date: '8/8' }, 
+    { url: 'https://stand.fm/episodes/6a7655c7cd3fe770e9e785fb', no: 11, theme: 'AI時代のファイル管理術！命名規則とアクセス権限の設計ポイント', date: '8/8' },
+    { url: 'https://stand.fm/episodes/6a7f9d48836d14834bf080f7', no: 12, theme: 'スプレッドシートAI化からGrok自己分析まで', date: '8/15' },
   ];
   // 既定の表示順： 'newest'（新しい回が上＝降順）/ 'oldest'（第1回が上＝昇順）
   var POD_ORDER = 'newest';
