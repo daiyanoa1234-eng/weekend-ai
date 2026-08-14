@@ -744,6 +744,7 @@
           '<div class="content-card-body">' +
             '<h3 class="content-title">' + esc(c.title) + '</h3>' +
             '<p class="content-desc">' + esc(c.desc) + '</p>' +
+            '<p class="content-meta"><span>' + formatDate(c.date) + '</span></p>' +
           '</div>';
         card.querySelector('.content-card-thumb').addEventListener('click', function () { openVideoModal(c); });
       } else {
