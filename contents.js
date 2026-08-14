@@ -286,12 +286,12 @@
     //   source: '出典・回のメモなど（任意）'
     // },
 
-    // ▼ 追加済みの動画（date は仮の値です。実際の回に合わせて調整してください）
+    // ▼ 追加済みの動画（date はYouTube側のアップロード日時をJST換算した実際の値です）
     {
       title: 'AI時代の"見えてしまう情報"',
       desc: 'Claudeなどの共有設定を誤ると、社内資料やお客様情報が検索エンジンから見つかる状態になってしまうことがあります。投稿前のチェックポイントや権限範囲の見直し方を紹介します。',
       tags: ['AIリテラシー'],
-      date: '2026-07-25',
+      date: '2026-07-29',
       type: '動画',
       youtubeId: '8ubAUePSwY8',
       source: '週末のAI整え習慣 今週のトピック③'
@@ -301,7 +301,7 @@
       title: 'デスクトップに癒しを！｜ペット機能で作業も効率化',
       desc: 'ChatGPTのCodexに追加された、デスクトップで動くペット機能を紹介します。癒されながら作業効率化にもつながる、ユニークな新機能です。',
       tags: ['ChatGPT', 'Codex'],
-      date: '2026-08-11',
+      date: '2026-08-14',
       type: '動画',
       youtubeId: 'BngbUoU48uM'
     },
@@ -310,11 +310,30 @@
       title: 'AIで書いた文章がバレる時代へ。｜Claudeで生成した文章に透かし識別情報付与!?',
       desc: 'Claudeが生成した文章に透かし（識別情報）を付与する新機能について解説します。AIで書いた文章だと判別されやすくなる時代の変化と、現場での注意点を紹介します。',
       tags: ['AIリテラシー', 'Claude'],
-      date: '2026-08-11',
+      date: '2026-08-14',
       type: '動画',
       youtubeId: '8bExAMcMfyc'
     },
   ];
+  /* date は「YouTube Studio → 動画の詳細」に表示されるアップロード日時（日本時間換算）を入れてください。
+     新しい回を追加するときも、この date を基準に新しい順／古い順の並び替えが決まります。 */
+
+  var LIB_ORDER_KEY = 'wa_library_order_v1';
+  var libOrder = (function () {
+    try { return localStorage.getItem(LIB_ORDER_KEY) || 'newest'; } catch (e) { return 'newest'; }
+  })();
+
+  function initLibrarySort() {
+    var btns = document.querySelectorAll('[data-lib-order]');
+    if (!btns.length) return;
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        libOrder = b.dataset.libOrder;
+        try { localStorage.setItem(LIB_ORDER_KEY, libOrder); } catch (e) {}
+        renderLibrary();
+      });
+    });
+  }
 
   function formatDate(d) {
     var m = String(d || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -682,8 +701,14 @@
   function renderLibrary() {
     if (!grid) return;
 
+    // 並び替えボタンの見た目を同期
+    document.querySelectorAll('[data-lib-order]').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.libOrder === libOrder);
+    });
+
     var list = CONTENTS.slice().sort(function (a, b) {
-      return new Date(b.date) - new Date(a.date);
+      var diff = new Date(a.date) - new Date(b.date);
+      return libOrder === 'oldest' ? diff : -diff;
     });
     if (currentTag !== 'all') {
       list = list.filter(function (c) { return (c.tags || []).indexOf(currentTag) !== -1; });
@@ -746,6 +771,7 @@
   setupSlider({ trackId: 'podList', prevId: 'podPrev', nextId: 'podNext', cardSelector: '.pod-card', hintId: 'podHint' });
   renderPodcast();
 
+  initLibrarySort();
   buildFilter();
   renderLibrary();
 
