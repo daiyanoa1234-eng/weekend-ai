@@ -442,6 +442,8 @@
          中の動画は個別設定なしで自動的に同じ権限になります。
      ===================================================== */
   var ARCHIVES = [
+    { no: 12, date: '2026-08-15', driveId: '1L6oY82hoKJqsuh8V64iB1Y3oMjASwUo2',
+      title: 'スプレッドシートAI化からGrok自己分析まで' },
     { no: 11, date: '2026-08-08', driveId: '19JlRjv3-MawZbyXcQKbzztXr_WZSiApV',
       title: 'AI時代のファイル管理術！命名規則とアクセス権限の設計ポイント' },
     { no: 10, date: '2026-08-01', driveId: '19pImfSYIR6lS3MITxcURnt5y2YpuDmfR',
