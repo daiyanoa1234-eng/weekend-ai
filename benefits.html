@@ -22,9 +22,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=20260815b">
 </head>
 <body>
+
+<!-- モバイル下部の固定CTA（860px以下で表示） -->
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-info">
+    <span class="sticky-title">毎週土曜 朝6:00〜／参加無料</span>
+    <span class="sticky-sub" data-countdown="compact"></span>
+  </span>
+  <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="benefits-sticky" class="btn btn-cta">申し込む</a>
+</div>
+
 
 <!-- ===== Header ===== -->
 <header class="site-header scrolled" id="siteHeader">
@@ -56,7 +66,7 @@
       <a href="contents.html">コンテンツ</a>
       <a href="faq.html">FAQ</a>
     </nav>
-    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta header-cta">無料で参加を申し込む</a>
+    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="benefits-header" target="_blank" rel="noopener" class="btn btn-cta header-cta">無料で参加を申し込む</a>
     <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -118,7 +128,7 @@
       </ul>
     </div>
     <figure class="split-visual">
-      <img src="assets/source-material.png" alt="ニュース要約・注目ポイント・参考リンク一覧で構成された情報源リンク付き資料のイメージ" loading="lazy">
+      <img src="assets/source-material.png" alt="ニュース要約・注目ポイント・参考リンク一覧で構成された情報源リンク付き資料のイメージ" width="1448" height="1086" loading="lazy" decoding="async">
       <figcaption>※ 資料イメージ。内容は回ごとに異なります。</figcaption>
     </figure>
   </div>
@@ -157,7 +167,7 @@
     </div>
 
     <div class="section-cta">
-      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
+      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="benefits-section" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
       <a href="join.html" class="btn btn-ghost">参加方法をくわしく見る</a>
     </div>
   </div>
@@ -206,5 +216,7 @@
 </footer>
 
 
+<script src="config.js?v=20260815b"></script>
+<script src="common.js?v=20260815b"></script>
 </body>
 </html>

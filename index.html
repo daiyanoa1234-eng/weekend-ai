@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260808">
+<link rel="stylesheet" href="styles.css?v=20260815b">
 </head>
 <body>
 
@@ -36,6 +36,13 @@
   </span>
   <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="index-sticky" class="btn btn-cta">申し込む</a>
 </div>
+
+<!-- BGM再生ボタン（ブラウザの自動再生制限のため、クリックで再生開始） -->
+<audio id="bgmAudio" src="assets/bgm-shumatsu.mp3" loop preload="none"></audio>
+<button type="button" class="bgm-toggle" id="bgmToggle" aria-pressed="false" aria-label="テーマ曲を再生する">
+  <span class="bgm-icon" aria-hidden="true">♪</span>
+  <span class="bgm-label">曲を再生</span>
+</button>
 
 
 <!-- ===== Header ===== -->
@@ -491,8 +498,33 @@
   </div>
 </footer>
 
-<script src="config.js?v=20260808"></script>
-<script src="common.js?v=20260808"></script>
-<script src="voices.js?v=20260808"></script>
+<script src="config.js?v=20260815b"></script>
+<script src="common.js?v=20260815b"></script>
+<script src="voices.js?v=20260815b"></script>
+<script>
+(function () {
+  'use strict';
+  var audio = document.getElementById('bgmAudio');
+  var btn = document.getElementById('bgmToggle');
+  if (!audio || !btn) return;
+
+  function setPlaying(on) {
+    btn.classList.toggle('is-playing', on);
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.querySelector('.bgm-label').textContent = on ? '曲を停止' : '曲を再生';
+  }
+
+  btn.addEventListener('click', function () {
+    if (audio.paused) {
+      audio.play().then(function () { setPlaying(true); }).catch(function () { setPlaying(false); });
+    } else {
+      audio.pause();
+      setPlaying(false);
+    }
+  });
+
+  audio.addEventListener('ended', function () { setPlaying(false); });
+})();
+</script>
 </body>
 </html>

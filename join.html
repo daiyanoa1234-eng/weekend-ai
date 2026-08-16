@@ -22,9 +22,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=20260815b">
 </head>
 <body>
+
+<!-- モバイル下部の固定CTA（860px以下で表示） -->
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-info">
+    <span class="sticky-title">毎週土曜 朝6:00〜／参加無料</span>
+    <span class="sticky-sub" data-countdown="compact"></span>
+  </span>
+  <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="join-sticky" class="btn btn-cta">申し込む</a>
+</div>
+
 
 <!-- ===== Header ===== -->
 <header class="site-header scrolled" id="siteHeader">
@@ -56,7 +66,7 @@
       <a href="contents.html">コンテンツ</a>
       <a href="faq.html">FAQ</a>
     </nav>
-    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta header-cta">無料で参加を申し込む</a>
+    <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="join-header" target="_blank" rel="noopener" class="btn btn-cta header-cta">無料で参加を申し込む</a>
     <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -70,7 +80,7 @@
     <h1 class="page-hero-title">朝活は<span class="accent">無料で参加</span>。<br>一緒に情報を集めるならコメキャリへ。</h1>
     <p class="page-hero-lead">土曜朝の勉強会は、申込ページから無料で参加できます。火曜・金曜の中間共有はセラピストドットコムからも受け取れます。週の途中でAI情報を持ち寄り、ディスカッションに関わるには、コメキャリへの参加が必要です。</p>
     <div class="page-hero-actions">
-      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
+      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="join-hero" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
     </div>
   </div>
 </section>
@@ -167,7 +177,7 @@
     </div>
 
     <div class="section-cta">
-      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
+      <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="join-section" target="_blank" rel="noopener" class="btn btn-cta btn-lg">無料で次回の朝活に申し込む</a>
       <a href="contents.html#podcast" class="btn btn-ghost">Podcastで雰囲気を見る</a>
     </div>
   </div>
@@ -216,5 +226,7 @@
 </footer>
 
 
+<script src="config.js?v=20260815b"></script>
+<script src="common.js?v=20260815b"></script>
 </body>
 </html>
