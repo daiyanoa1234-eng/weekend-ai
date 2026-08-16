@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260815b">
+<link rel="stylesheet" href="styles.css?v=20260815c">
 </head>
 <body>
 
@@ -34,6 +34,12 @@
   <a href="https://therapis10.com/seminars/cmr5gtjs30be14do38qlsolpu" data-apply="seminars-sticky" class="btn btn-cta">申し込む</a>
 </div>
 
+<!-- BGM再生ボタン（ブラウザの自動再生制限のため、初回のみクリックで再生開始） -->
+<audio id="bgmAudio" src="assets/bgm-shumatsu.mp3" loop preload="none"></audio>
+<button type="button" class="bgm-toggle" id="bgmToggle" aria-pressed="false" aria-label="テーマ曲を再生する">
+  <span class="bgm-icon" aria-hidden="true">♪</span>
+  <span class="bgm-label">曲を再生</span>
+</button>
 
 <!-- ===== Header ===== -->
 <header class="site-header scrolled" id="siteHeader">
@@ -185,8 +191,9 @@
   </div>
 </div>
 
-<script src="config.js?v=20260815b"></script>
-<script src="common.js?v=20260815b"></script>
-<script src="seminars.js?v=20260815b"></script>
+<script src="config.js?v=20260815c"></script>
+<script src="common.js?v=20260815c"></script>
+<script src="seminars.js?v=20260815c"></script>
+<script src="bgm.js?v=20260815c"></script>
 </body>
 </html>

@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260815b">
+<link rel="stylesheet" href="styles.css?v=20260815c">
 </head>
 <body>
 
@@ -498,33 +498,9 @@
   </div>
 </footer>
 
-<script src="config.js?v=20260815b"></script>
-<script src="common.js?v=20260815b"></script>
-<script src="voices.js?v=20260815b"></script>
-<script>
-(function () {
-  'use strict';
-  var audio = document.getElementById('bgmAudio');
-  var btn = document.getElementById('bgmToggle');
-  if (!audio || !btn) return;
-
-  function setPlaying(on) {
-    btn.classList.toggle('is-playing', on);
-    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    btn.querySelector('.bgm-label').textContent = on ? '曲を停止' : '曲を再生';
-  }
-
-  btn.addEventListener('click', function () {
-    if (audio.paused) {
-      audio.play().then(function () { setPlaying(true); }).catch(function () { setPlaying(false); });
-    } else {
-      audio.pause();
-      setPlaying(false);
-    }
-  });
-
-  audio.addEventListener('ended', function () { setPlaying(false); });
-})();
-</script>
+<script src="config.js?v=20260815c"></script>
+<script src="common.js?v=20260815c"></script>
+<script src="voices.js?v=20260815c"></script>
+<script src="bgm.js?v=20260815c"></script>
 </body>
 </html>
