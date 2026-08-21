@@ -39,6 +39,7 @@
     { url: 'https://stand.fm/episodes/6a6d2976cc75729749e74c47', no: 10, theme: 'Google Lyriaでテーマ曲解禁！音楽生成AIの衝撃と実用性', date: '8/1' },
     { url: 'https://stand.fm/episodes/6a7655c7cd3fe770e9e785fb', no: 11, theme: 'AI時代のファイル管理術！命名規則とアクセス権限の設計ポイント', date: '8/8' },
     { url: 'https://stand.fm/episodes/6a7f9d48836d14834bf080f7', no: 12, theme: 'スプレッドシートAI化からGrok自己分析まで', date: '8/15' },
+    { url: 'https://stand.fm/episodes/6a88cf4935c40266c30d32ff', no: 13, theme: 'Geminiの画像、実は『あのマーク』消せます！秘密の設定大公開', date: '8/22' },
   ];
   // 既定の表示順： 'newest'（新しい回が上＝降順）/ 'oldest'（第1回が上＝昇順）
   var POD_ORDER = 'newest';
@@ -442,6 +443,8 @@
          中の動画は個別設定なしで自動的に同じ権限になります。
      ===================================================== */
   var ARCHIVES = [
+    { no: 13, date: '2026-08-22', driveId: '15iO7CRoYYqjM5LO76mhbjhOLH_9ieupD',
+      title: 'Geminiの画像、実は『あのマーク』消せます！秘密の設定大公開' },
     { no: 12, date: '2026-08-15', driveId: '1L6oY82hoKJqsuh8V64iB1Y3oMjASwUo2',
       title: 'スプレッドシートAI化からGrok自己分析まで' },
     { no: 11, date: '2026-08-08', driveId: '19JlRjv3-MawZbyXcQKbzztXr_WZSiApV',
